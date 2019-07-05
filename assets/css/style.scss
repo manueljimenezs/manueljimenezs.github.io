@@ -3,3 +3,44 @@
 ---
 
 @import "{{ site.theme }}";
+
+.post-title,
+.post-content h1 {
+  @include relative-font-size(2.225);
+  letter-spacing: -1px;
+  line-height: 1;
+
+  @media screen and (min-width: $on-large) {
+    @include relative-font-size(2.625);
+  }
+}
+
+.post-content {
+  margin-bottom: $spacing-unit;
+
+  h2 {
+    @include relative-font-size(1.35);
+    font-weight: bold;
+
+    @media screen and (min-width: $on-large) {
+    font-weight: normal;
+      @include relative-font-size(2);
+    }
+  }
+
+  h3 {
+    @include relative-font-size(1.175);
+
+    @media screen and (min-width: $on-large) {
+      @include relative-font-size(1.625);
+    }
+  }
+
+  h4 {
+    @include relative-font-size(0.925);
+
+    @media screen and (min-width: $on-large) {
+      @include relative-font-size(1.25);
+    }
+  }
+}
