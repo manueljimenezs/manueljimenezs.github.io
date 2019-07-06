@@ -6,11 +6,16 @@
 
 @font-face {
     font-family: 'Podkova';
-    src: url('Podkova-Regular.ttf');
+    src: url('Podkova-Regular.ttf') format('truetype');
     font-weight: normal;
-    font-style: normal;
-
 }
+
+@font-face {
+    font-family: 'Podkova';
+    src: url('Podkova-Bold.ttf') format('truetype');
+    font-weight: bold;
+}
+
 
 .post-title,
 .post-content h1 {
@@ -54,7 +59,7 @@
 }
 
 .post-link{
-    font-weight: Medium;
+    font-weight: bold;
     font-family: Podkova;
     color: black;
 }
@@ -64,6 +69,6 @@
 }
 
 .post-title, .post-content h1{
-    font-weight: Bold;
+    font-weight: bold;
     font-family: Podkova;
 }
