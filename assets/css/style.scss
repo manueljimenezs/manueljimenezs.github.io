@@ -61,6 +61,15 @@
 .post-link{
     font-weight: bold;
     font-family: Podkova;
+    font-size: 24px;
+    
+    @media screen and (max-width: $on-large) {
+        line-height: 32px;
+    }
+    @media screen and (min-width: $on-large) {
+      font-size: 30px;
+      
+    }
     color: black;
 }
 
@@ -70,5 +79,5 @@
 
 .post-title, .post-content h1{
     font-weight: bold;
-    font-family: Podkova;
+    font-family: Podkova
 }
