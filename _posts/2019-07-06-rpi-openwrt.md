@@ -41,5 +41,10 @@ With that set you could do an `/etc/init.d/network restart` to apply the changes
 
 ### Installing the software and the web interface
 
-Run `opkg update` and then run `opkg install luci`. If you want to install packages from the interface also install 
+Run `opkg update` and then run `opkg install luci`. If you want to install packages from the interface also install `luci-app-opkg`
+
+`reboot` the device and access your Pi from a browser:
+
+
+![](/assets/img/rpi-openwrt/luci-first-boot.png)
 
