@@ -4,6 +4,9 @@ title: "Building a router with a Raspberry Pi and OpenWRT"
 categories: guides
 ---
 
+
+![](/assets/img/rpi-openwrt/pi-wrt.jpeg)
+
 OpenWRT is a well known distribution among routers. I provides a wide variety of possibilities with the inclusion of a package manager `opkg`. Here I'm going to be installing OpenWRT on a Raspberry Pi 3 B+ and creating a  wireless access point with its own subnet that doesn't have access to the rest of the network. This could be useful for isolating IoT devices or creating a ''guest'' network.
 
 The [OpenWRT Wiki](https://openwrt.org/toh/raspberry_pi_foundation/raspberry_pi) gives a bit of light on the installation of OpenWRT on the Pi. First of all I'm going to use the **snapshot** build instead of the release located at https://downloads.openwrt.org/snapshots/targets/brcm2708/bcm2710/. If you use the release build the onboard wi-fi will not be detected.
