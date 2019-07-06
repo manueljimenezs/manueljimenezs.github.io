@@ -26,7 +26,7 @@ Run `ssh root@192.168.1.1` and you will be presented with a shell prompt.
 
 Do an `ip addr` and look for the ethernet interface, in this case it will be `eth0`.
 
-In OpenWRT the interfaces are configured in `/etc/confing/network` add or modify the lan entry in that file:
+In OpenWRT the interfaces are configured in `/etc/config/network` add or modify the lan entry in that file:
 
 ```
 config interface 'lan'
