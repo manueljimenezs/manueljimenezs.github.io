@@ -1,7 +1,4 @@
 ---
-published: true
----
----
 layout: post
 title: "Building a router with a Raspberry Pi and OpenWRT"
 categories: guides
