@@ -5,7 +5,7 @@ categories: guides
 ---
 
 
-![](/assets/img/rpi-openwrt/pi-wrt.jpeg)
+[](/assets/img/rpi-openwrt/pi-wrt.jpeg)
 
 OpenWRT is a well known distribution among routers. It provides a wide variety of possibilities with the inclusion of a package manager `opkg`. Here I'm going to be installing OpenWRT on a Raspberry Pi 3 B+ and creating a  wireless access point with its own subnet that doesn't have access to the rest of the network. This could be useful for isolating IoT devices or creating a ''guest'' network.
 
