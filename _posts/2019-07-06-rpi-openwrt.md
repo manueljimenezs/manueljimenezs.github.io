@@ -39,7 +39,7 @@ config interface 'lan'
         option ifname 'eth0'
 ```
 
-For updating the packages wi will also need to configure the DNS servers so edit the `/etc/config/dhcp` and add `list server 1.1.1.1` or something similar to the `config dnsmasq` entry.
+For updating the packages we will also need to configure the DNS servers so edit the `/etc/config/dhcp` and add `list server 1.1.1.1` or something similar to the `config dnsmasq` entry.
 
 With that set you could do an `/etc/init.d/network restart` to apply the changes.
 
