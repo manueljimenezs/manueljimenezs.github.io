@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 ---
 ## Building a router with a Raspberry Pi and OpenWRT
 
@@ -47,4 +47,3 @@ Run `opkg update` and then run `opkg install luci`. If you want to install packa
 
 
 ![](/assets/img/rpi-openwrt/luci-first-boot.png)
-
