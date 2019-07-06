@@ -4,6 +4,14 @@
 
 @import "{{ site.theme }}";
 
+@font-face {
+    font-family: 'Podkova';
+    src: url('Podkova-Regular.ttf');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
 .post-title,
 .post-content h1 {
   @include relative-font-size(2.225);
@@ -43,4 +51,19 @@
       @include relative-font-size(1.25);
     }
   }
+}
+
+.post-link{
+    font-weight: Medium;
+    font-family: Podkova;
+    color: black;
+}
+
+.post-link:visited{
+    color: black;
+}
+
+.post-title, .post-content h1{
+    font-weight: Bold;
+    font-family: Podkova;
 }
