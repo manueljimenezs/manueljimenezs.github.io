@@ -28,7 +28,7 @@ Do an `ip addr` and look for the ethernet interface, in this case it will be `et
 
 In OpenWRT the interfaces are configured in `/etc/config/network` add or modify the lan entry in that file:
 
-```
+```config
 config interface 'lan'
         option type 'bridge'
         option proto 'static'
