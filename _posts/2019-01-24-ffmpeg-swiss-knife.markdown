@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "ffmpeg, a swiss knife for video"
+title:  "FFmpeg, the video Swiss Army Knife"
 date:   2019-01-24 10:55:30 +01:00
-categories: video
+categories: tips
 ---
 
 You may have found yourself in a situation where you have to modify a video or extract its audio. Firing up a complete editor for such simple tasks could be a waste of energy and time.

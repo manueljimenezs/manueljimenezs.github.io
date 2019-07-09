@@ -51,3 +51,5 @@ Run `opkg update` and then run `opkg install luci`. If you want to install packa
 
 
 ![](/assets/img/rpi-openwrt/luci-first-boot.png)
+
+This is only a basic installation, further configuration depends on your network and what you want to do with it.
