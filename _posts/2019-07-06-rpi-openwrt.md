@@ -107,13 +107,6 @@ config forwarding
         option dest 'wifi'
         option src 'wan'
 
-config zone
-        option name 'newzone'
-        option input 'ACCEPT'
-        option forward 'REJECT'
-        option network ' '
-        option output 'ACCEPT'
-
 config rule
         option enabled '1'
         option src 'wifi'
