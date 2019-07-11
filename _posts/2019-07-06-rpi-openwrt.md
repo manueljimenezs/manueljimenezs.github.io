@@ -22,7 +22,7 @@ Unzip and flash the `rpi-3-ext4-factory.img.gz` image located in the previous li
 
 Run `ssh root@192.168.1.1` and you will be presented with a shell prompt.
 
-### Configure the internet access
+## Configure the internet access
 
 Do an `ip addr` and look for the ethernet interface, in this case it will be `eth0`.
 
@@ -52,4 +52,78 @@ Run `opkg update` and then run `opkg install luci`. If you want to install packa
 
 ![](/assets/img/rpi-openwrt/luci-first-boot.png)
 
-This is only a basic installation, further configuration depends on your network and what you want to do with it.
+## Configuring the zones and creating an isolated AP for guests
+
+In the Web GUI, I configured a new interface called wifi and I linked it into the existing lan connection. Then you can specify different rules for restricting the access in that new network. My main router works in the `192.168.1.0/24` range so the access point will have its own isolated network in the `192.168.2.0/24` range. Here's an `/etc/config/network` example:
+
+```config
+...
+config interface 'lan'
+        option type 'bridge'
+        option proto 'static'
+        option ipaddr '192.168.1.2'
+        option gateway '192.168.1.1'
+        option netmask '255.255.255.0'
+        option ip6assign '60'
+        option ifname 'eth0'
+
+config interface 'wifi'
+        option proto 'static'
+        option ipaddr '192.168.2.1'
+        option netmask '255.255.255.0'
+```
+
+The zones are configured in `/etc/config/firewall`
+
+```config
+...
+
+config zone
+        option name 'wifi'
+        option input 'ACCEPT'
+        option output 'ACCEPT'
+        option forward 'ACCEPT'
+        option masq '1'
+        option network 'lan wifi'
+
+config forwarding
+        option dest 'wan'
+        optioconfig interface 'lan'
+        option type 'bridge'
+        option proto 'static'
+        option ipaddr '192.168.1.2'
+        option gateway '192.168.1.1'
+        option netmask '255.255.255.0'
+        option ip6assign '60'
+        option ifname 'eth0'
+
+config interface 'wifi'
+        option proto 'static'
+        option ipaddr '192.168.2.1'
+        option netmask '255.255.255.0'
+n src 'wifi'
+
+config forwarding
+        option dest 'wifi'
+        option src 'wan'
+
+config zone
+        option name 'newzone'
+        option input 'ACCEPT'
+        option forward 'REJECT'
+        option network ' '
+        option output 'ACCEPT'
+
+config rule
+        option enabled '1'
+        option src 'wifi'
+        option name 'isolatewifi'
+        option proto 'all'
+        option src_ip '192.168.2.0/24'
+        option dest_ip '192.168.1.0/24'
+        option target 'DROP'
+        option dest '*'
+
+```
+
+All of this can also be done in the web interface, but I put here the config files for clarity's sake.
