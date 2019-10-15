@@ -9,7 +9,7 @@ You may have found yourself in a situation where you have to modify a video or e
 
 Here are some basic tips for FFmpeg that can sometimes make your workflow more efficient:
 
-## Change the aspect ratio of a video without reencoding
+## Change the aspect ratio of a video without re-encoding
 
 This can be useful when the only thing we want to do is changing the proportions of a video without losing quality.
 
