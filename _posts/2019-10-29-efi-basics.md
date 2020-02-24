@@ -96,6 +96,27 @@ Windows is automatically detected by refind and some Linux distros too, but if y
 
 the root points to the ID of the partition in which the distro is installed, it can be retrieved with `blkid`.
 
+## Extra: Ubuntu: Copying kernels to ESP
+
+```
+manu@x240:~$ cat /etc/kernel/postinst.d/zz-kernel-esp 
+#!/bin/bash
+#
+# This is a simple custom kernel hook to populate the systemd-boot entries
+# whenever kernels are added or removed during an update.
+#
+
+vmlinuz=$(find /boot -maxdepth 1 -name "vmlinuz-*-generic")
+version=$(echo $vmlinuz | grep -o -P "\d+\.\d+\.\d+\-\d+" | sort -V | head -n -1)
+latest=$(echo $vmlinuz | grep -o -P "\d+\.\d+\.\d+\-\d+" | sort -V | tail -n 1)
+
+echo ">> COPYING ${latest}-generic. LATEST VERSION."
+
+for file in initrd.img vmlinuz; do
+    cp "/boot/${file}-${latest}-generic" "/boot/efi/EFI/ubuntu/${file}-generic"
+done
+```
+
 
 
 
