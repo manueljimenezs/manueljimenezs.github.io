@@ -2,6 +2,7 @@
 layout: post
 title: "EFI Basics: Booting your systems like a pro"
 categories: guides
+date: 2019-09-21 20:39:54 +01:00
 ---
 
 ![Refind Bootloader](/assets/img/refind_scr.png)
