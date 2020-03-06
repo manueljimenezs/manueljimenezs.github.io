@@ -2,7 +2,7 @@
 layout: post
 title: "EFI Basics: Booting your systems like a pro"
 categories: guides
-date: 2019-09-21 20:39:54 +01:00
+date: 2019-10-29 20:39:54 +01:00
 ---
 
 ![Refind Bootloader](/assets/img/refind_scr.png)
@@ -17,7 +17,7 @@ In UEFI (The PC implementation) multiple applications can coexist, this means yo
  * Your disk has to be formatted in GPT instead of MBR
  * You need an ESP (EFI system partition) that stores all the *bootable* executables
 
- ## The ESP
+## The ESP
 
 The ESP (EFI system partition) is a small FAT32 partition (~512MB) that stores all the bootloaders:
 
