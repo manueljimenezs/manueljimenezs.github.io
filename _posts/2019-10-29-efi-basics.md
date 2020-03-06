@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "EFI Basics: Booting your systems like a pro"
+title: "rEFInd: An elegant bootloader"
 categories: guides
 date: 2019-10-29 20:39:54 +01:00
 ---
