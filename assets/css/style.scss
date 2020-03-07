@@ -65,6 +65,7 @@
     
     @media screen and (max-width: $on-large) {
         line-height: 32px;
+        font-size: 30px;
     }
     @media screen and (min-width: $on-large) {
       font-size: 30px;
@@ -80,6 +81,11 @@
 .post-title, .post-content h1{
     font-weight: bold;
     font-family: Podkova
+}
+
+.post-content h2{
+  font-family: Podkova;
+  font-weight: bold
 }
 
 .highlighter-rouge, .highlight, code {
