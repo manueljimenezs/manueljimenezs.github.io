@@ -6,10 +6,12 @@ date: 2020-03-16 20:19:54 +01:00
 ---
 
 * Install `gnome-session` and some components:
-`sudo apt install gnome-session gnome-tweaks chrome-gnome-shell`
+
+  `sudo apt install gnome-session gnome-tweaks chrome-gnome-shell`
 
 * Restore the default login screen style:
-`sudo update-alternatives --config gdm3.css`
+
+  `sudo update-alternatives --config gdm3.css`
 
  Select `/usr/share/gnome-shell/theme/gnome-shell.css`
 
