@@ -6,18 +6,20 @@ date: 2020-03-16 20:19:54 +01:00
 ---
 
 * Install `gnome-session` and some components:
- sudo apt install gnome-session gnome-tweaks chrome-gnome-shell
+`sudo apt install gnome-session gnome-tweaks chrome-gnome-shell`
 
 * Restore the default login screen style:
- sudo update-alternatives --config gdm3.css
+`sudo update-alternatives --config gdm3.css`
 
  Select `/usr/share/gnome-shell/theme/gnome-shell.css`
 
  **Log out** from your PC and switch the session to GNOME by clicking the gear icon
 
-Go to Tweaks and remove 
+Go to extensions.gnome.org and install the User Themes extension
 
- ![](/assets/img/tweaks-style.png)
+Go to Tweaks and set themes, icons, etc in Adwaita 
+
+ ![](/assets/img/2020-03-16-vanilla-gnome/tweaks-style.png)
 
 # Removing snapd
 
