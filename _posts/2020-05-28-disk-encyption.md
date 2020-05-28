@@ -13,6 +13,8 @@ This installation will presume you are booting from an __EFI System__ and that y
 
 ## Planning the disk layout
 
+<!-- more -->
+
 In this case we're going to make two main partitions in a GPT partition table:
 
 * `/dev/sda1`, the ESP (UEFI Boot Partition) that will hold our kernel and the bootloader. Formatted as FAT32 with a size of 512MB with `mkfs.fat -F 32 /dev/sda1`
