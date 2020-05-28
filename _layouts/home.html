@@ -24,7 +24,7 @@ layout: default
         </h3>
         {%- if site.show_excerpts -%}
           {% if post.content contains "<!-- more -->" %}
-            {{ post.content | split:"<!-- more -->" | first % }} <a href="{{ post.url | relative_url }}">Read More</a>
+            {{ post.content | split:"<!-- more -->" | first }} <a href="{{ post.url | relative_url }}">Read More</a>
           {% else %}
             {{ post.excerpt}} <a href="{{ post.url | relative_url }}">Read More</a> 
         
