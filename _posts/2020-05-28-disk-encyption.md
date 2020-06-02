@@ -5,7 +5,7 @@ categories: guides
 date: 2020-05-28 19:19:54 +01:00
 ---
 
-This guide will guide you through a basic Archlinux installation with full-disk encryption an the usage of the BTRFS filesystem for managing subvolumes and snapshots.
+This article will guide you through a basic Archlinux installation with full-disk encryption and the usage of the BTRFS filesystem for managing subvolumes and snapshots.
 
 The steps shown here are all available in the Arch Wiki, but I wanted to make an installation example from scratch until OS startup.
 
@@ -20,12 +20,14 @@ In this case we're going to make two main partitions in a GPT partition table:
 * `/dev/sda1`, the ESP (UEFI Boot Partition) that will hold our kernel and the bootloader. Formatted as FAT32 with a size of 512MB with `mkfs.fat -F 32 /dev/sda1`
 * `/dev/sda2`, is a partition that will contain an encrypted container which at the same time will contain an LVM physical volume which at the same time will contain logical volumes for both the __root__ and __swap__ filesystems. Yeah, this seems a little bit crazy but it is a very flexible configuration :)
 
+ ![](/assets/img/2020-05-28-disk-encryption/diagram.png)
+
 ## Setting up the disk layout and volumes
 
 Supposing you've already created the two partitions mentioned about and formatted `/dev/sda1` as FAT32, the next step is to create the encrpyted container:
 ```
-# cryptsetup luksFormat /dev/sda1
-# cryptsetup open /dev/sda1 cryptlvm
+# cryptsetup luksFormat /dev/sda2
+# cryptsetup open /dev/sda2 cryptlvm
 ```
 Consecutively, a physical volume called ```cryptlvm``` is going to be created. We will also add that physical volume to a volume group called ```secure```
 ```
@@ -64,6 +66,8 @@ mkdir -p /mnt/{home,boot}
 mount -o subvol=@home,compression=zstd /dev/mapper/secure-system /mnt/home
 mount /dev/sda1 /mnt/boot
 ```
+
+## Continue with the usual Arch install
 
 __Follow the normal install of the base system and basic config. in the [Installation guide](https://wiki.archlinux.org/index.php/installation_guide)__
 
