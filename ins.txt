@@ -1,4 +1,4 @@
-bundle install
+bundle install or bundle install --path vendor/bundle
 
 gem install jekyll bundler
 
