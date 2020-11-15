@@ -39,7 +39,7 @@ I also set _agnoster_ as the zsh theme (it's the theme shown on the pictures)
 ZSH_THEME="agnoster"
 ```
 
-You can also cusomize the themes to your liking, copy an existing theme to `.oh/my/zsh/custom/themes`. For example, if you want to only show the last two levels on the path, add a '2'after de '%'symbol:
+You can also cusomize the themes to your liking, copy an existing theme to `.oh/my/zsh/custom/themes`. For example, if you want to only show the last two levels on the path, add a '2' after the '%' symbol:
 
 ```
 prompt_dir() {
