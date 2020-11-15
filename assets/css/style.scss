@@ -128,14 +128,14 @@ path {
   padding-top: 10px;
 }
 
+.site-nav {
+  border: none,
+}
+
 @media (prefers-color-scheme: dark) {
   body, .site-nav, .menu-icon {
       background-color: #2c2c2e;
       color: rgb(212, 212, 212) !important;
-  }
-
-  .site-nav {
-    border: none,
   }
 
 
