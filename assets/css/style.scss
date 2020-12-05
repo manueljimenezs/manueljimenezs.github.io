@@ -136,6 +136,10 @@ path {
   border-top: none;
 }
 @media (prefers-color-scheme: dark) {
+
+  /*Syntax higlighting fixes*/
+  .highlight .nt    { color: #626296 } // Name.Tag
+
   body, .site-nav, .menu-icon {
       background-color: #2c2c2e;
       color: rgb(212, 212, 212) !important;
