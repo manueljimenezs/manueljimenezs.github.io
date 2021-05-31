@@ -3,7 +3,7 @@
 ---
 
 @import "{{ site.theme }}";
-
+/*
 @font-face {
     font-family: 'Podkova';
     src: url('Podkova-Regular.ttf') format('truetype');
@@ -14,7 +14,7 @@
     font-family: 'Podkova';
     src: url('Podkova-Bold.ttf') format('truetype');
     font-weight: bold;
-}
+}*/
 
 
 .post-title,
@@ -37,7 +37,7 @@
 
     @media screen and (min-width: $on-large) {
     font-weight: normal;
-      @include relative-font-size(2);
+      @include relative-font-size(1.6);
     }
   }
 
@@ -57,18 +57,20 @@
     }
   }
 }
-
+.page-link {
+  font-weight: 600;
+}
 .post-link{
     font-weight: 600;
-    font-family: Podkova;
+    font-family: "Helvetica Neue", sans-serif;
     font-size: 24px;
     
     @media screen and (max-width: $on-large) {
-        line-height: 24px;
+        line-height: 1.8rem;
         font-size: 26px;
     }
     @media screen and (min-width: $on-large) {
-      font-size: 30px;
+      font-size: 26px;
       
     }
     color: black;
@@ -80,11 +82,11 @@
 
 .post-title, .post-content h1{
     font-weight: bold;
-    font-family: Podkova
+    font-family: "Helvetica Neue", sans-serif
 }
 
 .post-content h2{
-  font-family: Podkova;
+  font-family: "Helvetica Neue", sans-serif;
   font-weight: bold
 }
 
