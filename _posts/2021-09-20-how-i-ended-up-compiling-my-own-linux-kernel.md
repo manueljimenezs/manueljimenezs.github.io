@@ -11,7 +11,7 @@ In the Linux kernel, the maximum pixel clock (the speed at which pixels are tran
 
 There are two solutions to this problem:
     
-  - Using lower resolutions/framertes, this means not taking advantage of e.g ultrawide monitors. (Spoiler: nobody wants this 😛)
+  - Using lower resolutions/framerates, this means not taking advantage of e.g ultrawide monitors. (Spoiler: nobody wants this 😛)
 
   - Tweaking your kernel, increasing the clock ratio and happily use your shiny screen as it was intended.
 
