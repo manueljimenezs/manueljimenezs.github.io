@@ -23,11 +23,7 @@ $title-color: black;
     src: url('Arvo/Arvo-Regular.ttf') format('truetype');
     font-weight: bold;
 }
-@font-face {
-    font-family: 'Recoleta';
-    src: url('Recoleta/Recoleta Regular.otf') format('opentype');
-    font-weight: 400;
-}
+
 @font-face {
     font-family: 'Recoleta';
     src: url('Recoleta/Recoleta Bold.otf') format('opentype');
@@ -37,16 +33,6 @@ $title-color: black;
     font-family: 'Recoleta';
     src: url('Recoleta/Recoleta SemiBold.otf') format('opentype');
     font-weight: 600;
-}
-@font-face {
-    font-family: 'Recoleta';
-    src: url('Recoleta/Recoleta Medium.otf') format('opentype');
-    font-weight: 500;
-}
-@font-face {
-    font-family: 'Recoleta';
-    src: url('Recoleta/Recoleta Black.otf') format('opentype');
-    font-weight: 800;
 }
 
 
