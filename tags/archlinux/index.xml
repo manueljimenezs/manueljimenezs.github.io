@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>archlinux on manueljimenezs</title><link>/tags/archlinux/</link><description>manueljimenezs (archlinux)</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 20 Sep 2021 00:00:00 +0000</lastBuildDate><atom:link href="/tags/archlinux/index.xml" rel="self" type="application/rss+xml"/><item><title>How I ended up compiling my own Linux kernel</title><link>/2021/09/how-i-ended-up-compiling-my-own-linux-kernel/</link><pubDate>Mon, 20 Sep 2021 00:00:00 +0000</pubDate><guid>/2021/09/how-i-ended-up-compiling-my-own-linux-kernel/</guid><description>&lt;p>I didn&amp;rsquo;t expect this day would arrive. It&amp;rsquo;s all fun and games until you buy a cheap graphic card with only a DVI port in it. It works great for FullHD resolutions. The problem is when you have resolutions and framerates bigger than that.&lt;/p>
+&lt;p>In the Linux kernel, the maximum pixel clock (the speed at which pixels are transmitted over a port) is limited to 165 MHz leading to messing with the images when displaying bigger resolutions than fullHD.&lt;/p>
+&lt;p>There are two solutions to this problem:&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>Using lower resolutions/framerates, this means not taking advantage of e.g ultrawide monitors. (Spoiler: nobody wants this 😛)&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Tweaking your kernel, increasing the clock ratio and happily use your shiny screen as it was intended.&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="getting-your-hands-dirty" >Getting your hands dirty
+&lt;span>
+&lt;a href="#getting-your-hands-dirty">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;p>After a long journey searching on the interwebs, I found that increasing the pixel clock to 250 MHz is enough for WFHD resolutions. There is even a &lt;a href="https://www.monitortests.com/pixelclock.php">calculator&lt;/a> for that.&lt;/p>
+&lt;p>&lt;strong>Note that you may be running your graphics card out of spec, and you can irreversibly damage your hardware so be very cautious with this.&lt;/strong>&lt;/p>
+&lt;p>Here is the line in the Linux kernel that we&amp;rsquo;re going to change. This change is provide as a patch file, which concisely represents how and where a change in a file is made. Something like &lt;code>diff --git oldfile.txt newfile.txt&lt;/code> will suffice.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-diff" data-lang="diff">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">--- a/drivers/gpu/drm/amd/display/include/signal_types.h 2020-12-17 20:11:00.261706513 +0100
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">&lt;/span>&lt;span style="color:#a6e22e">+++ b/drivers/gpu/drm/amd/display/include/signal_types.h 2020-12-17 20:09:14.391997315 +0100
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">&lt;/span>&lt;span style="color:#75715e">@@ -29,7 +29,7 @@
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> /* Minimum pixel clock, in KHz. For TMDS signal is 25.00 MHz */
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> #define TMDS_MIN_PIXEL_CLOCK 25000
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> /* Maximum pixel clock, in KHz. For TMDS signal is 165.00 MHz */
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">-#define TMDS_MAX_PIXEL_CLOCK 165000
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">&lt;/span>&lt;span style="color:#a6e22e">+#define TMDS_MAX_PIXEL_CLOCK 250000
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>I also created a script that downloads the linux source code, automatically applies all the patches and compiles it with a basic config. &lt;a href="https://github.com/manueljimenezs/linux-build-script">Here&lt;/a> is the full set of files.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">#!/bin/bash
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>KERNELVER&lt;span style="color:#f92672">=&lt;/span>linux-5.14.2
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>get_and_prepare&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> wget https://cdn.kernel.org/pub/linux/kernel/v5.x/$KERNELVER.tar.xz
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> tar -xf $KERNELVER.tar.xz
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> cp -r config $KERNELVER/.config
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>patch_kernel&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">for&lt;/span> i in &lt;span style="color:#66d9ef">$(&lt;/span>ls patches&lt;span style="color:#66d9ef">)&lt;/span>; &lt;span style="color:#66d9ef">do&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> patch -Np1 -d $KERNELVER &amp;lt; patches/0001-amdgpu-clock.patch
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">done&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>build&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> export KBUILD_BUILD_HOST&lt;span style="color:#f92672">=&lt;/span>archlinux
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> export KBUILD_BUILD_USER&lt;span style="color:#f92672">=&lt;/span>linux-amdclock
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> cd $KERNELVER
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> make -j10
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> make modules -j10
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> sudo cp -v arch/x86/boot/bzImage /boot/vmlinuz-linux-amdclock
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> sudo make modules_install
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">if&lt;/span> ! command -v wget &amp;amp;&amp;gt; /dev/null; &lt;span style="color:#66d9ef">then&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> echo &lt;span style="color:#e6db74">&amp;#34;Please install wget&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> exit &lt;span style="color:#ae81ff">1&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">fi&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">case&lt;/span> &lt;span style="color:#e6db74">&amp;#34;&lt;/span>$1&lt;span style="color:#e6db74">&amp;#34;&lt;/span> in
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> -b|--build-only&lt;span style="color:#f92672">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> build
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> exit &lt;span style="color:#ae81ff">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ;;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> -p|--patch-only&lt;span style="color:#f92672">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> patch_kernel
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> exit &lt;span style="color:#ae81ff">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ;;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">esac&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>get_and_prepare
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>patch_kernel
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>build
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>On each update you would have to increase the kernel version and recompile the new kernel to copy it to your bootdir.&lt;/p>
+&lt;p>Also, you would have to blacklist the &lt;code>linux&lt;/code> package on your distribution&amp;rsquo;s package manager so it doesn&amp;rsquo;t automatically update and you don&amp;rsquo;t lose the changes made.&lt;/p>
+&lt;p>In the case of Archlinux, as aaalwayss ;)) the wiki clearly explains it: &lt;a href="https://wiki.archlinux.org/title/Pacman#Skip_package_from_being_upgraded">link&lt;/a>&lt;/p></description></item></channel></rss>
