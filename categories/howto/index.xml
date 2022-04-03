@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>howto on manueljimenezs</title><link>/categories/howto/</link><description>manueljimenezs (howto)</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 28 May 2020 19:19:54 +0100</lastBuildDate><atom:link href="/categories/howto/index.xml" rel="self" type="application/rss+xml"/><item><title>Full-disk encryption on Archlinux with LVM+LUKS+BTRFS</title><link>/2020/05/full-disk-encryption-on-archlinux-with-lvm-luks-btrfs/</link><pubDate>Thu, 28 May 2020 19:19:54 +0100</pubDate><guid>/2020/05/full-disk-encryption-on-archlinux-with-lvm-luks-btrfs/</guid><description>&lt;p>This article will guide you through a basic Archlinux installation with full-disk encryption and the usage of the BTRFS filesystem for managing subvolumes and snapshots.&lt;/p>
+&lt;p>The steps shown here are all available in the Arch Wiki, but I wanted to make an installation example from scratch until OS startup.&lt;/p>
+&lt;p>This installation will presume you are booting from an &lt;strong>EFI System&lt;/strong> and that you will be using a SWAP partition. Again, this is a concrete real-world example but feel free to make it match to your likings.&lt;/p>
+&lt;h2 id="planning-the-disk-layout" >Planning the disk layout
+&lt;span>
+&lt;a href="#planning-the-disk-layout">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;!-- more -->
+&lt;p>In this case we&amp;rsquo;re going to make two main partitions in a GPT partition table:&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>/dev/sda1&lt;/code>, the ESP (UEFI Boot Partition) that will hold our kernel and the bootloader. Formatted as FAT32 with a size of 512MB with &lt;code>mkfs.fat -F 32 /dev/sda1&lt;/code>&lt;/li>
+&lt;li>&lt;code>/dev/sda2&lt;/code>, is a partition that will contain an encrypted container which at the same time will contain an LVM physical volume which at the same time will contain logical volumes for both the &lt;strong>root&lt;/strong> and &lt;strong>swap&lt;/strong> filesystems. Yeah, this seems a little bit crazy but it is a very flexible configuration :)&lt;/li>
+&lt;/ul>
+&lt;p>&lt;img src="/img/2020-05-28-disk-encryption/diagram.png" alt="">&lt;/p>
+&lt;h2 id="setting-up-the-disk-layout-and-volumes" >Setting up the disk layout and volumes
+&lt;span>
+&lt;a href="#setting-up-the-disk-layout-and-volumes">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;p>Supposing you&amp;rsquo;ve already created the two partitions mentioned about and formatted &lt;code>/dev/sda1&lt;/code> as FAT32, the next step is to create the encrpyted container:&lt;/p>
+&lt;pre tabindex="0">&lt;code># cryptsetup luksFormat /dev/sda2
+# cryptsetup open /dev/sda2 cryptlvm
+&lt;/code>&lt;/pre>&lt;p>Consecutively, a physical volume called &lt;code>cryptlvm&lt;/code> is going to be created. We will also add that physical volume to a volume group called &lt;code>secure&lt;/code>&lt;/p>
+&lt;pre tabindex="0">&lt;code># pvcreate /dev/mapper/cryptlvm
+# vgcreate secure /dev/mapper/cryptlvm
+&lt;/code>&lt;/pre>&lt;p>Then we&amp;rsquo;re going to focus on creating the &lt;strong>swap&lt;/strong> and &lt;strong>root&lt;/strong> filesystems:&lt;/p>
+&lt;p>The &lt;strong>swap&lt;/strong> partition will be 4GB and the rest will be used for the BTRFS system partition&lt;/p>
+&lt;pre tabindex="0">&lt;code>lvcreate -L 4G secure -n swap
+lvcreate -l 100%FREE secure -n root
+&lt;/code>&lt;/pre>&lt;p>Initialize the &lt;strong>swap&lt;/strong> partition:&lt;/p>
+&lt;pre tabindex="0">&lt;code>mkswap /dev/mapper/secure-swap
+swapon /dev/mapper/secure-swap
+&lt;/code>&lt;/pre>&lt;p>Create the &lt;strong>BTRFS&lt;/strong> filesystem and their subsequent subvolumes: &amp;lsquo;@&amp;rsquo; for root, &amp;lsquo;@home&amp;rsquo; for the home folder and &amp;lsquo;@snapshots&amp;rsquo; for making filesystem backups. This makes it to discriminate directories when making backups.&lt;/p>
+&lt;pre tabindex="0">&lt;code>mkfs.btrfs /dev/mapper/secure-system
+mount /dev/mapper/secure-system /mnt
+btrfs subvolume create /mnt/@
+btrfs subvolume create /mnt/@home
+btrfs subvolume create /mnt/@snapshots
+umount /mnt
+&lt;/code>&lt;/pre>&lt;p>Now we&amp;rsquo;re going to mount all the volumes and we&amp;rsquo;re going to enable zstd compression.&lt;/p>
+&lt;pre tabindex="0">&lt;code>mount -o subvol=@,compression=zstd /dev/mapper/secure-system /mnt
+mkdir -p /mnt/{home,boot}
+mount -o subvol=@home,compression=zstd /dev/mapper/secure-system /mnt/home
+mount /dev/sda1 /mnt/boot
+&lt;/code>&lt;/pre>&lt;h2 id="continue-with-the-usual-arch-install" >Continue with the usual Arch install
+&lt;span>
+&lt;a href="#continue-with-the-usual-arch-install">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;p>&lt;strong>Follow the normal install of the base system and basic config. in the &lt;a href="https://wiki.archlinux.org/index.php/installation_guide">Installation guide&lt;/a>&lt;/strong>&lt;/p>
+&lt;h2 id="finishing-the-installation" >Finishing the installation
+&lt;span>
+&lt;a href="#finishing-the-installation">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;p>When arriving at the mkinitcpio part some extra steps will be required:&lt;/p>
+&lt;p>Install &lt;code>intel-ucode&lt;/code> (or the AMD counterpart) and install systemd-boot on the ESP:&lt;/p>
+&lt;pre tabindex="0">&lt;code>bootctl –path=/boot install
+&lt;/code>&lt;/pre>&lt;p>Head over to the ESP (/boot) and create &lt;code>arch.conf&lt;/code> inside the &lt;code>entries&lt;/code> directory with the following content:&lt;/p>
+&lt;pre tabindex="0">&lt;code>title Arch Linux
+linux /vmlinuz-linux
+initrd /intel-ucode.img # ONLY FOR INTEL CPUs!!
+initrd /initramfs-linux.img
+options luks.uuid=&amp;lt;LUKS_UUID&amp;gt; root=/dev/mapper/secure-system rootflags=subvol=@ rd.luks.options=discard
+&lt;/code>&lt;/pre>&lt;p>&lt;strong>Replace &lt;code>&amp;lt;LUKS_UUID&amp;gt;&lt;/code> with the UUID shown in &lt;code>blkid&lt;/code> in the filesystem flagged as LUKS.&lt;/strong>&lt;/p>
+&lt;p>Add &lt;code>default arch&lt;/code> inside the &lt;code>loader.conf&lt;/code> file.&lt;/p>
+&lt;p>Edit the HOOKS line in &lt;code>/etc/mkinitcpio.conf&lt;/code> with the following modules:&lt;/p>
+&lt;pre tabindex="0">&lt;code class="language-conf" data-lang="conf">HOOKS=(base systemd autodetect modconf keyboard sd-vconsole block sd-encrypt sd-lvm2 filesystems fsck)
+&lt;/code>&lt;/pre>&lt;p>Lastly run &lt;code>mkinitcpio -p linux&lt;/code> and &lt;code>reboot&lt;/code>. If you&amp;rsquo;re lucky enough you will enter to your newly installed operating system.&lt;/p></description></item><item><title>rEFInd: An elegant bootloader</title><link>/2019/10/refind-an-elegant-bootloader/</link><pubDate>Tue, 29 Oct 2019 20:39:54 +0100</pubDate><guid>/2019/10/refind-an-elegant-bootloader/</guid><description>&lt;p>&lt;img src="/img/refind_scr.png" alt="Refind Bootloader">&lt;/p>
+&lt;h1 id="introduction" >Introduction
+&lt;span>
+&lt;a href="#introduction">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h1>&lt;p>From the year 2013, Microsoft switched its operating system&amp;rsquo;s booting mode to a technology called EFI, already being used in Macs for a long time.&lt;/p>
+&lt;p>In UEFI (The PC implementation) multiple applications can coexist, this means you can combine multiple bootloaders such as Windows Boot, GRUB, systemd-boot without taking over each other.&lt;/p>
+&lt;h1 id="efi-requirements" >EFI Requirements
+&lt;span>
+&lt;a href="#efi-requirements">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h1>&lt;ul>
+&lt;li>Your motherboard has to be supported (&amp;gt;2013)&lt;/li>
+&lt;li>Your disk has to be formatted in GPT instead of MBR&lt;/li>
+&lt;li>You need an ESP (EFI system partition) that stores all the &lt;em>bootable&lt;/em> executables&lt;/li>
+&lt;/ul>
+&lt;h2 id="the-esp" >The ESP
+&lt;span>
+&lt;a href="#the-esp">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;p>The ESP (EFI system partition) is a small FAT32 partition (~512MB) that stores all the bootloaders:&lt;/p>
+&lt;pre tabindex="0">&lt;code>.
+├── Boot
+│   ├── BOOT.CSV
+│   ├── bootx64.efi
+│   └── ref.bak
+├── Microsoft
+│   ├── Boot
+│   └── Recovery
+├── refind
+│   ├── BOOT.CSV
+│   ├── drivers_x64
+│   ├── icons
+│   ├── keys
+│   ├── refind.conf
+│   ├── refind.conf.bak
+│   ├── refind_x64.efi
+│   └── themes
+├── tools
+└── ubuntu
+├── fw
+└── fwupx64.efi
+&lt;/code>&lt;/pre>&lt;p>The default bootloader is stored in the firmware level in something we call &lt;em>EFI Variables&lt;/em> that we&amp;rsquo;ll configure in just a moment. In some motherboards the default bootloader can be chosen in the motherboard config screen.&lt;/p>
+&lt;p>The &lt;code>Boot&lt;/code> directory is a fallback option just in case those variables are not set, you could copy any &lt;code>.efi&lt;/code> file in other folder to &lt;code>bootx64.efi&lt;/code> to make it your fallback option.&lt;/p>
+&lt;h1 id="refind" >rEFInd
+&lt;span>
+&lt;a href="#refind">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h1>&lt;p>rEFInd is a graphic bootloader that is smart enough to find the bootable entries without much configuration, it is also able to remember the last booted option to be selected on the next boot. It is also able to boot USB sticks and be bootable from any install media.&lt;/p>
+&lt;h2 id="manual-install" >Manual install
+&lt;span>
+&lt;a href="#manual-install">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;p>Supposing you have an ESP partition in a GPT disk (If you are using Windows 10, you probably are) you just have to copy &lt;a href="https://sourceforge.net/projects/refind/files/0.11.4/refind-bin-0.11.4.zip/download">the refind folder&lt;/a> into the /EFI folder of the ESP (There are also OS-specific installers that do this)&lt;/p>
+&lt;p>Once copied you have to tell your motherboard to boot from it by default.&lt;/p>
+&lt;p>In Linux there is an utility that list the boot order called &lt;code>efibootmgr&lt;/code>&lt;/p>
+&lt;pre tabindex="0">&lt;code>BootCurrent: 0002
+Timeout: 1 seconds
+BootOrder: 0002,0000,0006,0001,0003,0004
+Boot0000* Windows Boot Manager
+Boot0001* UEFI:CD/DVD Drive
+Boot0002* rEFInd Boot Manager
+Boot0003* UEFI:Removable Device
+Boot0004* UEFI:Network Device
+Boot0006* proxmox
+&lt;/code>&lt;/pre>&lt;p>To add rEFInd:&lt;/p>
+&lt;p>&lt;code>efibootmgr -c -l \\EFI\\refind\\refind_x64.efi -L rEFInd&lt;/code>&lt;/p>
+&lt;p>To change the boot order:&lt;/p>
+&lt;p>&lt;code>efibootmgr -o 0,1,2&lt;/code>&lt;/p>
+&lt;p>To remove an entry:&lt;/p>
+&lt;p>&lt;code>efibootmgr -Bb 0000&lt;/code>&lt;/p>
+&lt;p>Refind has a &lt;code>refind.conf&lt;/code> and lots of themes to customize it.&lt;/p>
+&lt;h2 id="adding-linux" >Adding Linux
+&lt;span>
+&lt;a href="#adding-linux">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;p>Windows is automatically detected by refind and some Linux distros too, but if you want to be sure add a &lt;code>refind_linux.conf&lt;/code> file into your Linux Partition in the &lt;code>/boot/&lt;/code> directory:&lt;/p>
+&lt;pre tabindex="0">&lt;code>&amp;#34;Boot using default options&amp;#34; &amp;#34;root=PARTUUID=a9fbd673-2ba9-4dcd-be6b-97423dd74c89 rw initrd=/boot/amd-ucode.img initrd=/boot/initramfs-%v.img&amp;#34;
+&lt;/code>&lt;/pre>&lt;p>the root points to the ID of the partition in which the distro is installed, it can be retrieved with &lt;code>blkid&lt;/code>.&lt;/p>
+&lt;h2 id="extra-ubuntu-copying-kernels-to-esp" >Extra: Ubuntu: Copying kernels to ESP
+&lt;span>
+&lt;a href="#extra-ubuntu-copying-kernels-to-esp">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;pre tabindex="0">&lt;code>manu@x240:~$ cat /etc/kernel/postinst.d/zz-kernel-esp
+#!/bin/bash
+#
+# This is a simple custom kernel hook to populate the systemd-boot entries
+# whenever kernels are added or removed during an update.
+#
+vmlinuz=$(find /boot -maxdepth 1 -name &amp;#34;vmlinuz-*-generic&amp;#34;)
+version=$(echo $vmlinuz | grep -o -P &amp;#34;\d+\.\d+\.\d+\-\d+&amp;#34; | sort -V | head -n -1)
+latest=$(echo $vmlinuz | grep -o -P &amp;#34;\d+\.\d+\.\d+\-\d+&amp;#34; | sort -V | tail -n 1)
+echo &amp;#34;&amp;gt;&amp;gt; COPYING ${latest}-generic. LATEST VERSION.&amp;#34;
+for file in initrd.img vmlinuz; do
+cp &amp;#34;/boot/${file}-${latest}-generic&amp;#34; &amp;#34;/boot/efi/EFI/ubuntu/${file}-generic&amp;#34;
+done
+&lt;/code>&lt;/pre></description></item></channel></rss>

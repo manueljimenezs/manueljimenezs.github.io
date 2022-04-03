@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>cli on manueljimenezs</title><link>/tags/cli/</link><description>manueljimenezs (cli)</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 24 Jan 2019 10:55:30 +0100</lastBuildDate><atom:link href="/tags/cli/index.xml" rel="self" type="application/rss+xml"/><item><title>FFmpeg, the video Swiss Army Knife</title><link>/2019/01/ffmpeg-the-video-swiss-army-knife/</link><pubDate>Thu, 24 Jan 2019 10:55:30 +0100</pubDate><guid>/2019/01/ffmpeg-the-video-swiss-army-knife/</guid><description>&lt;p>You may have found yourself in a situation where you have to modify a video or extract its audio. Firing up a complete editor for such simple tasks could be a waste of energy and time.&lt;/p>
+&lt;p>Here are some basic tips for FFmpeg that can sometimes make your workflow more efficient:&lt;/p>
+&lt;h2 id="change-the-aspect-ratio-of-a-video-without-re-encoding" >Change the aspect ratio of a video without re-encoding
+&lt;span>
+&lt;a href="#change-the-aspect-ratio-of-a-video-without-re-encoding">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;p>This can be useful when the only thing we want to do is changing the proportions of a video without losing quality.&lt;/p>
+&lt;p>For example for converting a 4:3 video to an stretched 16:9:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">ffmpeg -i in.mp4 -aspect 16:9 -c copy out.mp4
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;img src="/img/ffmpeg_aspect.png" alt="4:3 to 16:9">&lt;/p>
+&lt;p>The &lt;code>-c copy&lt;/code> option allows setting up the codec to a copy mode where ffmpeg doesn&amp;rsquo;t reencode the video and the results are done immediately.&lt;/p>
+&lt;h2 id="extracting-audio-from-a-file" >Extracting audio from a file
+&lt;span>
+&lt;a href="#extracting-audio-from-a-file">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">ffmpeg -i in.mp4 out.mp3
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;strong>Note:&lt;/strong> the extensions shown here are completely arbitrary, ffmpeg supports a wide variety of codecs and formats which can be seen with the commands &lt;code>ffmpeg -codecs&lt;/code> and &lt;code>ffmpeg -formats&lt;/code>&lt;/p>
+&lt;h2 id="cutting-a-video-file-without-reencoding" >Cutting a video file without reencoding
+&lt;span>
+&lt;a href="#cutting-a-video-file-without-reencoding">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">ffmpeg -i in.mp4 -ss 00:00:25.0 -codec copy -t &lt;span class="m">30&lt;/span> out.mp4
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;em>In this case the cut starts on second 25 and the video lasts 30 seconds&lt;/em>&lt;/p>
+&lt;h2 id="converting-a-video-to-other-format" >Converting a video to other format
+&lt;span>
+&lt;a href="#converting-a-video-to-other-format">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">ffmpeg -i in.ogv -c:v libx264 out.mp4
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>&lt;code>-c:v libx264&lt;/code> sets the video codec&lt;/li>
+&lt;li>&lt;code>-c:a vorbis&lt;/code> sets the audio codec&lt;/li>
+&lt;li>&lt;code>-r 25&lt;/code> sets the framerate to 25fps&lt;/li>
+&lt;li>&lt;code>-s &amp;lt;1280x720|hd720&amp;gt;&lt;/code> sets the video resolution to 720p&lt;/li>
+&lt;li>&lt;code>-b:v 1M&lt;/code> sets the &lt;em>video&lt;/em> bitrate to 1MB/s&lt;/li>
+&lt;/ul></description></item><item><title>Vertically split double PDF pages</title><link>/2019/01/vertically-split-double-pdf-pages/</link><pubDate>Wed, 16 Jan 2019 20:39:54 +0100</pubDate><guid>/2019/01/vertically-split-double-pdf-pages/</guid><description>&lt;p>Some people like to distribute their slides in a printing format, making reading and skipping pages really difficult.&lt;/p>
+&lt;p>&lt;code>mupdf&lt;/code>, among other options, has a CLI utility to overcome this and have as a result one slide per page.&lt;/p>
+&lt;pre tabindex="0">&lt;code>mutool poster -y 2 in.pdf out.pdf
+&lt;/code>&lt;/pre></description></item></channel></rss>

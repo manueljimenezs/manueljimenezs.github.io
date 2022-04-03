@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>networking on manueljimenezs</title><link>/tags/networking/</link><description>manueljimenezs (networking)</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sat, 06 Jul 2019 00:00:00 +0000</lastBuildDate><atom:link href="/tags/networking/index.xml" rel="self" type="application/rss+xml"/><item><title>Building a router with a Raspberry Pi and OpenWRT</title><link>/2019/07/building-a-router-with-a-raspberry-pi-and-openwrt/</link><pubDate>Sat, 06 Jul 2019 00:00:00 +0000</pubDate><guid>/2019/07/building-a-router-with-a-raspberry-pi-and-openwrt/</guid><description>&lt;p>&lt;img src="/img/rpi-openwrt/pi-wrt.jpeg" alt="">&lt;/p>
+&lt;p>OpenWRT is a well known distribution among routers. It provides a wide variety of possibilities with the inclusion of a package manager &lt;code>opkg&lt;/code>. Here I&amp;rsquo;m going to be installing OpenWRT on a Raspberry Pi 3 B+ and creating a wireless access point with its own subnet that doesn&amp;rsquo;t have access to the rest of the network. This could be useful for isolating IoT devices or creating a &amp;lsquo;&amp;lsquo;guest&amp;rsquo;&amp;rsquo; network.&lt;/p>
+&lt;p>The &lt;a href="https://openwrt.org/toh/raspberry_pi_foundation/raspberry_pi">OpenWRT Wiki&lt;/a> gives a bit of light on the installation of OpenWRT on the Pi. First of all I&amp;rsquo;m going to use the &lt;strong>snapshot&lt;/strong> build instead of the release located at &lt;a href="https://downloads.openwrt.org/snapshots/targets/brcm2708/bcm2710/">https://downloads.openwrt.org/snapshots/targets/brcm2708/bcm2710/&lt;/a>. If you use the release build the onboard wi-fi will not be detected.&lt;/p>
+&lt;p>There are a few considerations before flashing the image that should be worth taking a look:&lt;/p>
+&lt;ul>
+&lt;li>The default IP for thr RPi will be &lt;code>192.168.1.1&lt;/code>, this will collide with your main router address so you have to temporarily change your router IP to something like &lt;code>192.168.1.3&lt;/code> and after having access to the raspberry pi changing it back.&lt;/li>
+&lt;li>If using a Pi 3B+, your country has to be set with &lt;code>raspi-config&lt;/code> in a Raspbian environment for the onboard wireless to work.&lt;/li>
+&lt;/ul>
+&lt;p>Ok so we will be plugging the pi into an ethernet device like any other normal computer to give it access to the internet.&lt;/p>
+&lt;p>Unzip and flash the &lt;code>rpi-3-ext4-factory.img.gz&lt;/code> image located in the previous link and turn on the pi.&lt;/p>
+&lt;p>Run &lt;code>ssh root@192.168.1.1&lt;/code> and you will be presented with a shell prompt.&lt;/p>
+&lt;h2 id="configure-the-internet-access" >Configure the internet access
+&lt;span>
+&lt;a href="#configure-the-internet-access">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;p>Do an &lt;code>ip addr&lt;/code> and look for the ethernet interface, in this case it will be &lt;code>eth0&lt;/code>.&lt;/p>
+&lt;p>In OpenWRT the interfaces are configured in &lt;code>/etc/config/network&lt;/code> add or modify the lan entry in that file:&lt;/p>
+&lt;pre tabindex="0">&lt;code class="language-config" data-lang="config">config interface &amp;#39;lan&amp;#39;
+option type &amp;#39;bridge&amp;#39;
+option proto &amp;#39;static&amp;#39;
+option ipaddr &amp;#39;192.168.1.2&amp;#39;
+option gateway &amp;#39;192.168.1.1&amp;#39;
+option netmask &amp;#39;255.255.255.0&amp;#39;
+option ip6assign &amp;#39;60&amp;#39;
+option ifname &amp;#39;eth0&amp;#39;
+&lt;/code>&lt;/pre>&lt;p>For updating the packages we will also need to configure the DNS servers so edit the &lt;code>/etc/config/dhcp&lt;/code> and add &lt;code>list server 1.1.1.1&lt;/code> or something similar to the &lt;code>config dnsmasq&lt;/code> entry.&lt;/p>
+&lt;p>With that set you could do an &lt;code>/etc/init.d/network restart&lt;/code> to apply the changes.&lt;/p>
+&lt;h3 id="installing-the-software-and-the-web-interface" >Installing the software and the web interface
+&lt;span>
+&lt;a href="#installing-the-software-and-the-web-interface">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h3>&lt;p>Run &lt;code>opkg update&lt;/code> and then run &lt;code>opkg install luci&lt;/code>. If you want to install packages from the interface also install &lt;code>luci-app-opkg&lt;/code>&lt;/p>
+&lt;p>&lt;code>reboot&lt;/code> the device and access your Pi from a browser:&lt;/p>
+&lt;p>&lt;img src="/img/rpi-openwrt/luci-first-boot.png" alt="">&lt;/p>
+&lt;h2 id="configuring-the-zones-and-creating-an-isolated-ap-for-guests" >Configuring the zones and creating an isolated AP for guests
+&lt;span>
+&lt;a href="#configuring-the-zones-and-creating-an-isolated-ap-for-guests">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;p>In the Web GUI, I configured a new interface called wifi and I linked it into the existing lan connection. Then you can specify different rules for restricting the access in that new network. My main router works in the &lt;code>192.168.1.0/24&lt;/code> range so the access point will have its own isolated network in the &lt;code>192.168.2.0/24&lt;/code> range. Here&amp;rsquo;s an &lt;code>/etc/config/network&lt;/code> example:&lt;/p>
+&lt;pre tabindex="0">&lt;code class="language-config" data-lang="config">...
+config interface &amp;#39;lan&amp;#39;
+option type &amp;#39;bridge&amp;#39;
+option proto &amp;#39;static&amp;#39;
+option ipaddr &amp;#39;192.168.1.2&amp;#39;
+option gateway &amp;#39;192.168.1.1&amp;#39;
+option netmask &amp;#39;255.255.255.0&amp;#39;
+option ip6assign &amp;#39;60&amp;#39;
+option ifname &amp;#39;eth0&amp;#39;
+config interface &amp;#39;wifi&amp;#39;
+option proto &amp;#39;static&amp;#39;
+option ipaddr &amp;#39;192.168.2.1&amp;#39;
+option netmask &amp;#39;255.255.255.0&amp;#39;
+&lt;/code>&lt;/pre>&lt;p>The zones are configured in &lt;code>/etc/config/firewall&lt;/code>&lt;/p>
+&lt;pre tabindex="0">&lt;code class="language-config" data-lang="config">...
+config zone
+option name &amp;#39;wifi&amp;#39;
+option input &amp;#39;ACCEPT&amp;#39;
+option output &amp;#39;ACCEPT&amp;#39;
+option forward &amp;#39;ACCEPT&amp;#39;
+option masq &amp;#39;1&amp;#39;
+option network &amp;#39;lan wifi&amp;#39;
+config forwarding
+option dest &amp;#39;wan&amp;#39;
+optioconfig interface &amp;#39;lan&amp;#39;
+option type &amp;#39;bridge&amp;#39;
+option proto &amp;#39;static&amp;#39;
+option ipaddr &amp;#39;192.168.1.2&amp;#39;
+option gateway &amp;#39;192.168.1.1&amp;#39;
+option netmask &amp;#39;255.255.255.0&amp;#39;
+option ip6assign &amp;#39;60&amp;#39;
+option ifname &amp;#39;eth0&amp;#39;
+config interface &amp;#39;wifi&amp;#39;
+option proto &amp;#39;static&amp;#39;
+option ipaddr &amp;#39;192.168.2.1&amp;#39;
+option netmask &amp;#39;255.255.255.0&amp;#39;
+n src &amp;#39;wifi&amp;#39;
+config forwarding
+option dest &amp;#39;wifi&amp;#39;
+option src &amp;#39;wan&amp;#39;
+config rule
+option enabled &amp;#39;1&amp;#39;
+option src &amp;#39;wifi&amp;#39;
+option name &amp;#39;isolatewifi&amp;#39;
+option proto &amp;#39;all&amp;#39;
+option src_ip &amp;#39;192.168.2.0/24&amp;#39;
+option dest_ip &amp;#39;192.168.1.0/24&amp;#39;
+option target &amp;#39;DROP&amp;#39;
+option dest &amp;#39;*&amp;#39;
+&lt;/code>&lt;/pre>&lt;p>All of this can also be done in the web interface, but I put here the config files for clarity&amp;rsquo;s sake.&lt;/p></description></item></channel></rss>

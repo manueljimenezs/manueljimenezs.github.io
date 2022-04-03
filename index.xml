@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>manueljimenezs</title><link>/</link><description>manueljimenezs</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sun, 03 Apr 2022 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml"/><item><title>This blog now runs under Hugo</title><link>/2022/04/this-blog-now-runs-under-hugo/</link><pubDate>Sun, 03 Apr 2022 00:00:00 +0000</pubDate><guid>/2022/04/this-blog-now-runs-under-hugo/</guid><description>&lt;p>So I wanted to give another chance to Hugo, I was using Jekyll for a while but I didn&amp;rsquo;t quite like the hassle of managing ruby dependencies and versions.&lt;/p>
 &lt;p>At the same time, I also took the opportunity to entirely redo the layout of the page, using the &lt;a href="https://themes.gohugo.io/themes/hugo-theme-anubis/">Anubis&lt;/a> theme as a base. I liked that the old design was quite minimal and i wanted to preserve that. I also tried to avoid using JavaScript so if you block it, it will look exactly the same, on any device 😁.&lt;/p>
+&lt;p>Also migrating the posts from one platform to another worked flawlessly with almost no modification to the source files 👍.&lt;/p>
 &lt;p>Now I use two repositories for managing this page, one repo for serving the static build, and other repo for making the edits.&lt;/p>
 &lt;p>Using a &lt;a href="https://github.com/peaceiris/actions-hugo">workflow&lt;/a> is very convenient with this setup becase you can write posts from everywhere without having a local enviroment to deploy.&lt;/p>
 &lt;h1 id="setting-up-the-environment" >Setting up the environment
@@ -28,37 +29,37 @@
 &lt;p>In your &lt;code>myblog-hugo&lt;/code> repo, create the following file at &lt;code>.github/workflows/main.yml&lt;/code> with this content, changing the &lt;code>&amp;lt;user&amp;gt;&lt;/code> variable to your liking.&lt;/p>
 &lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#ae81ff">hugo build&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">on&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">push&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">branches&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">master&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">jobs&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">build-deploy&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">runs-on&lt;/span>: &lt;span style="color:#ae81ff">ubuntu-latest&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">steps&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#f92672">uses&lt;/span>: &lt;span style="color:#ae81ff">actions/checkout@v3&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#ae81ff">Setup Hugo&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">uses&lt;/span>: &lt;span style="color:#ae81ff">peaceiris/actions-hugo@v2&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">with&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">hugo-version&lt;/span>: &lt;span style="color:#e6db74">&amp;#39;0.96.0&amp;#39;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#ae81ff">Build&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">run&lt;/span>: &lt;span style="color:#ae81ff">hugo --minify&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#ae81ff">Deploy&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">uses&lt;/span>: &lt;span style="color:#ae81ff">peaceiris/actions-gh-pages@v2&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">env&lt;/span>:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">PERSONAL_TOKEN&lt;/span>: &lt;span style="color:#ae81ff">${{ secrets.HUGOSECRET }}&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">EXTERNAL_REPOSITORY&lt;/span>: &lt;span style="color:#ae81ff">&amp;lt;user&amp;gt;/&amp;lt;user&amp;gt;.github.io&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">PUBLISH_BRANCH&lt;/span>: &lt;span style="color:#ae81ff">master&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">PUBLISH_DIR&lt;/span>: &lt;span style="color:#ae81ff">./public/&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>How I ended up compiling my own Linux kernel</title><link>/2021/09/how-i-ended-up-compiling-my-own-linux-kernel/</link><pubDate>Mon, 20 Sep 2021 00:00:00 +0000</pubDate><guid>/2021/09/how-i-ended-up-compiling-my-own-linux-kernel/</guid><description>&lt;p>I didn&amp;rsquo;t expect this day would arrive. It&amp;rsquo;s all fun and games until you buy a cheap graphic card with only a DVI port in it. It works great for FullHD resolutions. The problem is when you have resolutions and framerates bigger than that.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">hugo build&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">on&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">push&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">branches&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">master&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">jobs&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">build-deploy&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">runs-on&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">ubuntu-latest&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">steps&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">uses&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">actions/checkout@v3&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Setup Hugo&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">uses&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">peaceiris/actions-hugo@v2&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">with&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">hugo-version&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s1">&amp;#39;0.96.0&amp;#39;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Build&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">run&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">hugo --minify&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Deploy&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">uses&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">peaceiris/actions-gh-pages@v2&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">env&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">PERSONAL_TOKEN&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">${{ secrets.HUGOSECRET }}&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">EXTERNAL_REPOSITORY&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">&amp;lt;user&amp;gt;/&amp;lt;user&amp;gt;.github.io&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">PUBLISH_BRANCH&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">master&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">PUBLISH_DIR&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">./public/&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>How I ended up compiling my own Linux kernel</title><link>/2021/09/how-i-ended-up-compiling-my-own-linux-kernel/</link><pubDate>Mon, 20 Sep 2021 00:00:00 +0000</pubDate><guid>/2021/09/how-i-ended-up-compiling-my-own-linux-kernel/</guid><description>&lt;p>I didn&amp;rsquo;t expect this day would arrive. It&amp;rsquo;s all fun and games until you buy a cheap graphic card with only a DVI port in it. It works great for FullHD resolutions. The problem is when you have resolutions and framerates bigger than that.&lt;/p>
 &lt;p>In the Linux kernel, the maximum pixel clock (the speed at which pixels are transmitted over a port) is limited to 165 MHz leading to messing with the images when displaying bigger resolutions than fullHD.&lt;/p>
 &lt;p>There are two solutions to this problem:&lt;/p>
 &lt;ul>
@@ -78,60 +79,60 @@
 &lt;/h2>&lt;p>After a long journey searching on the interwebs, I found that increasing the pixel clock to 250 MHz is enough for WFHD resolutions. There is even a &lt;a href="https://www.monitortests.com/pixelclock.php">calculator&lt;/a> for that.&lt;/p>
 &lt;p>&lt;strong>Note that you may be running your graphics card out of spec, and you can irreversibly damage your hardware so be very cautious with this.&lt;/strong>&lt;/p>
 &lt;p>Here is the line in the Linux kernel that we&amp;rsquo;re going to change. This change is provide as a patch file, which concisely represents how and where a change in a file is made. Something like &lt;code>diff --git oldfile.txt newfile.txt&lt;/code> will suffice.&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-diff" data-lang="diff">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">--- a/drivers/gpu/drm/amd/display/include/signal_types.h 2020-12-17 20:11:00.261706513 +0100
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">&lt;/span>&lt;span style="color:#a6e22e">+++ b/drivers/gpu/drm/amd/display/include/signal_types.h 2020-12-17 20:09:14.391997315 +0100
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">&lt;/span>&lt;span style="color:#75715e">@@ -29,7 +29,7 @@
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> /* Minimum pixel clock, in KHz. For TMDS signal is 25.00 MHz */
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> #define TMDS_MIN_PIXEL_CLOCK 25000
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> /* Maximum pixel clock, in KHz. For TMDS signal is 165.00 MHz */
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">-#define TMDS_MAX_PIXEL_CLOCK 165000
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">&lt;/span>&lt;span style="color:#a6e22e">+#define TMDS_MAX_PIXEL_CLOCK 250000
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-diff" data-lang="diff">&lt;span class="line">&lt;span class="cl">&lt;span class="gd">--- a/drivers/gpu/drm/amd/display/include/signal_types.h 2020-12-17 20:11:00.261706513 +0100
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="gd">&lt;/span>&lt;span class="gi">+++ b/drivers/gpu/drm/amd/display/include/signal_types.h 2020-12-17 20:09:14.391997315 +0100
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="gi">&lt;/span>&lt;span class="gu">@@ -29,7 +29,7 @@
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="gu">&lt;/span> /* Minimum pixel clock, in KHz. For TMDS signal is 25.00 MHz */
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> #define TMDS_MIN_PIXEL_CLOCK 25000
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> /* Maximum pixel clock, in KHz. For TMDS signal is 165.00 MHz */
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="gd">-#define TMDS_MAX_PIXEL_CLOCK 165000
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="gd">&lt;/span>&lt;span class="gi">+#define TMDS_MAX_PIXEL_CLOCK 250000
 &lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>I also created a script that downloads the linux source code, automatically applies all the patches and compiles it with a basic config. &lt;a href="https://github.com/manueljimenezs/linux-build-script">Here&lt;/a> is the full set of files.&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">#!/bin/bash
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>KERNELVER&lt;span style="color:#f92672">=&lt;/span>linux-5.14.2
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>get_and_prepare&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> wget https://cdn.kernel.org/pub/linux/kernel/v5.x/$KERNELVER.tar.xz
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> tar -xf $KERNELVER.tar.xz
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> cp -r config $KERNELVER/.config
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>patch_kernel&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">for&lt;/span> i in &lt;span style="color:#66d9ef">$(&lt;/span>ls patches&lt;span style="color:#66d9ef">)&lt;/span>; &lt;span style="color:#66d9ef">do&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> patch -Np1 -d $KERNELVER &amp;lt; patches/0001-amdgpu-clock.patch
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">done&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>build&lt;span style="color:#f92672">()&lt;/span> &lt;span style="color:#f92672">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> export KBUILD_BUILD_HOST&lt;span style="color:#f92672">=&lt;/span>archlinux
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> export KBUILD_BUILD_USER&lt;span style="color:#f92672">=&lt;/span>linux-amdclock
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> cd $KERNELVER
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> make -j10
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> make modules -j10
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> sudo cp -v arch/x86/boot/bzImage /boot/vmlinuz-linux-amdclock
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> sudo make modules_install
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">if&lt;/span> ! command -v wget &amp;amp;&amp;gt; /dev/null; &lt;span style="color:#66d9ef">then&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> echo &lt;span style="color:#e6db74">&amp;#34;Please install wget&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> exit &lt;span style="color:#ae81ff">1&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">fi&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">case&lt;/span> &lt;span style="color:#e6db74">&amp;#34;&lt;/span>$1&lt;span style="color:#e6db74">&amp;#34;&lt;/span> in
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> -b|--build-only&lt;span style="color:#f92672">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> build
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> exit &lt;span style="color:#ae81ff">0&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ;;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> -p|--patch-only&lt;span style="color:#f92672">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> patch_kernel
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> exit &lt;span style="color:#ae81ff">0&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ;;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">esac&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>get_and_prepare
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>patch_kernel
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>build
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">&lt;span class="cp">#!/bin/bash
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cp">&lt;/span>&lt;span class="nv">KERNELVER&lt;/span>&lt;span class="o">=&lt;/span>linux-5.14.2
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">get_and_prepare&lt;span class="o">()&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> wget https://cdn.kernel.org/pub/linux/kernel/v5.x/&lt;span class="nv">$KERNELVER&lt;/span>.tar.xz
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> tar -xf &lt;span class="nv">$KERNELVER&lt;/span>.tar.xz
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> cp -r config &lt;span class="nv">$KERNELVER&lt;/span>/.config
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">patch_kernel&lt;span class="o">()&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">for&lt;/span> i in &lt;span class="k">$(&lt;/span>ls patches&lt;span class="k">)&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="k">do&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> patch -Np1 -d &lt;span class="nv">$KERNELVER&lt;/span> &amp;lt; patches/0001-amdgpu-clock.patch
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">done&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">build&lt;span class="o">()&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">export&lt;/span> &lt;span class="nv">KBUILD_BUILD_HOST&lt;/span>&lt;span class="o">=&lt;/span>archlinux
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">export&lt;/span> &lt;span class="nv">KBUILD_BUILD_USER&lt;/span>&lt;span class="o">=&lt;/span>linux-amdclock
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">cd&lt;/span> &lt;span class="nv">$KERNELVER&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> make -j10
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> make modules -j10
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> sudo cp -v arch/x86/boot/bzImage /boot/vmlinuz-linux-amdclock
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> sudo make modules_install
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">if&lt;/span> ! &lt;span class="nb">command&lt;/span> -v wget &lt;span class="p">&amp;amp;&lt;/span>&amp;gt; /dev/null&lt;span class="p">;&lt;/span> &lt;span class="k">then&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">echo&lt;/span> &lt;span class="s2">&amp;#34;Please install wget&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">exit&lt;/span> &lt;span class="m">1&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">fi&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">case&lt;/span> &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="nv">$1&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span> in
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> -b&lt;span class="p">|&lt;/span>--build-only&lt;span class="o">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> build
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">exit&lt;/span> &lt;span class="m">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">;;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> -p&lt;span class="p">|&lt;/span>--patch-only&lt;span class="o">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> patch_kernel
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">exit&lt;/span> &lt;span class="m">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">;;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">esac&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">get_and_prepare
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">patch_kernel
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">build
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>On each update you would have to increase the kernel version and recompile the new kernel to copy it to your bootdir.&lt;/p>
 &lt;p>Also, you would have to blacklist the &lt;code>linux&lt;/code> package on your distribution&amp;rsquo;s package manager so it doesn&amp;rsquo;t automatically update and you don&amp;rsquo;t lose the changes made.&lt;/p>
 &lt;p>In the case of Archlinux, as aaalwayss ;)) the wiki clearly explains it: &lt;a href="https://wiki.archlinux.org/title/Pacman#Skip_package_from_being_upgraded">link&lt;/a>&lt;/p></description></item><item><title>Full-disk encryption on Archlinux with LVM+LUKS+BTRFS</title><link>/2020/05/full-disk-encryption-on-archlinux-with-lvm-luks-btrfs/</link><pubDate>Thu, 28 May 2020 19:19:54 +0100</pubDate><guid>/2020/05/full-disk-encryption-on-archlinux-with-lvm-luks-btrfs/</guid><description>&lt;p>This article will guide you through a basic Archlinux installation with full-disk encryption and the usage of the BTRFS filesystem for managing subvolumes and snapshots.&lt;/p>
@@ -229,11 +230,11 @@ options luks.uuid=&amp;lt;LUKS_UUID&amp;gt; root=/dev/mapper/secure-system rootf
 &lt;/a>
 &lt;/span>
 &lt;/h1>&lt;p>Snaps are a self-contained package technology that allows software to be installed without worrying about incompatible libraries. The downside is that apps are bigger in size and the startup may be slower.&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>sudo rm -rf /var/cache/snapd/
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo apt autoremove --purge snapd gnome-software-plugin-snap
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>rm -rf ~/snap
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">sudo rm -rf /var/cache/snapd/
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">sudo apt autoremove --purge snapd gnome-software-plugin-snap
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">rm -rf ~/snap
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>You may have to run &lt;code>apt install gnome-calculator gnome-system-monitor&lt;/code> to get back some default applications that were initially shipped as snaps.&lt;/p></description></item><item><title>rEFInd: An elegant bootloader</title><link>/2019/10/refind-an-elegant-bootloader/</link><pubDate>Tue, 29 Oct 2019 20:39:54 +0100</pubDate><guid>/2019/10/refind-an-elegant-bootloader/</guid><description>&lt;p>&lt;img src="/img/refind_scr.png" alt="Refind Bootloader">&lt;/p>
 &lt;h1 id="introduction" >Introduction
 &lt;span>
@@ -344,64 +345,7 @@ echo &amp;#34;&amp;gt;&amp;gt; COPYING ${latest}-generic. LATEST VERSION.&amp;#3
 for file in initrd.img vmlinuz; do
 cp &amp;#34;/boot/${file}-${latest}-generic&amp;#34; &amp;#34;/boot/efi/EFI/ubuntu/${file}-generic&amp;#34;
 done
-&lt;/code>&lt;/pre></description></item><item><title>About</title><link>/about/</link><pubDate>Thu, 28 Feb 2019 00:00:00 +0000</pubDate><guid>/about/</guid><description>&lt;p>Written in Go, Hugo is an open source static site generator available under the &lt;a href="https://github.com/gohugoio/hugo/blob/master/LICENSE">Apache Licence 2.0.&lt;/a> Hugo supports TOML, YAML and JSON data file types, Markdown and HTML content files and uses shortcodes to add rich content. Other notable features are taxonomies, multilingual mode, image processing, custom output formats, HTML/CSS/JS minification and support for Sass SCSS workflows.&lt;/p>
-&lt;p>Hugo makes use of a variety of open source projects including:&lt;/p>
-&lt;ul>
-&lt;li>&lt;a href="https://github.com/yuin/goldmark">https://github.com/yuin/goldmark&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://github.com/alecthomas/chroma">https://github.com/alecthomas/chroma&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://github.com/muesli/smartcrop">https://github.com/muesli/smartcrop&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://github.com/spf13/cobra">https://github.com/spf13/cobra&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://github.com/spf13/viper">https://github.com/spf13/viper&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;p>Hugo is ideal for blogs, corporate websites, creative portfolios, online magazines, single page applications or even a website with thousands of pages.&lt;/p>
-&lt;p>Hugo is for people who want to hand code their own website without worrying about setting up complicated runtimes, dependencies and databases.&lt;/p>
-&lt;p>Websites built with Hugo are extremelly fast, secure and can be deployed anywhere including, AWS, GitHub Pages, Heroku, Netlify and any other hosting provider.&lt;/p>
-&lt;p>Learn more and contribute on &lt;a href="https://github.com/gohugoio">GitHub&lt;/a>.&lt;/p></description></item><item><title>Subpage</title><link>/about/subpage/</link><pubDate>Thu, 28 Feb 2019 00:00:00 +0000</pubDate><guid>/about/subpage/</guid><description>&lt;p>Just a subpage of About.&lt;/p></description></item><item><title>FFmpeg, the video Swiss Army Knife</title><link>/2019/01/ffmpeg-the-video-swiss-army-knife/</link><pubDate>Thu, 24 Jan 2019 10:55:30 +0100</pubDate><guid>/2019/01/ffmpeg-the-video-swiss-army-knife/</guid><description>&lt;p>You may have found yourself in a situation where you have to modify a video or extract its audio. Firing up a complete editor for such simple tasks could be a waste of energy and time.&lt;/p>
-&lt;p>Here are some basic tips for FFmpeg that can sometimes make your workflow more efficient:&lt;/p>
-&lt;h2 id="change-the-aspect-ratio-of-a-video-without-re-encoding" >Change the aspect ratio of a video without re-encoding
-&lt;span>
-&lt;a href="#change-the-aspect-ratio-of-a-video-without-re-encoding">
-&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
-&lt;/a>
-&lt;/span>
-&lt;/h2>&lt;p>This can be useful when the only thing we want to do is changing the proportions of a video without losing quality.&lt;/p>
-&lt;p>For example for converting a 4:3 video to an stretched 16:9:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>ffmpeg -i in.mp4 -aspect 16:9 -c copy out.mp4
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;img src="/img/ffmpeg_aspect.png" alt="4:3 to 16:9">&lt;/p>
-&lt;p>The &lt;code>-c copy&lt;/code> option allows setting up the codec to a copy mode where ffmpeg doesn&amp;rsquo;t reencode the video and the results are done immediately.&lt;/p>
-&lt;h2 id="extracting-audio-from-a-file" >Extracting audio from a file
-&lt;span>
-&lt;a href="#extracting-audio-from-a-file">
-&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
-&lt;/a>
-&lt;/span>
-&lt;/h2>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>ffmpeg -i in.mp4 out.mp3
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;strong>Note:&lt;/strong> the extensions shown here are completely arbitrary, ffmpeg supports a wide variety of codecs and formats which can be seen with the commands &lt;code>ffmpeg -codecs&lt;/code> and &lt;code>ffmpeg -formats&lt;/code>&lt;/p>
-&lt;h2 id="cutting-a-video-file-without-reencoding" >Cutting a video file without reencoding
-&lt;span>
-&lt;a href="#cutting-a-video-file-without-reencoding">
-&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
-&lt;/a>
-&lt;/span>
-&lt;/h2>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>ffmpeg -i in.mp4 -ss 00:00:25.0 -codec copy -t &lt;span style="color:#ae81ff">30&lt;/span> out.mp4
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;em>In this case the cut starts on second 25 and the video lasts 30 seconds&lt;/em>&lt;/p>
-&lt;h2 id="converting-a-video-to-other-format" >Converting a video to other format
-&lt;span>
-&lt;a href="#converting-a-video-to-other-format">
-&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
-&lt;/a>
-&lt;/span>
-&lt;/h2>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>ffmpeg -i in.ogv -c:v libx264 out.mp4
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
-&lt;li>&lt;code>-c:v libx264&lt;/code> sets the video codec&lt;/li>
-&lt;li>&lt;code>-c:a vorbis&lt;/code> sets the audio codec&lt;/li>
-&lt;li>&lt;code>-r 25&lt;/code> sets the framerate to 25fps&lt;/li>
-&lt;li>&lt;code>-s &amp;lt;1280x720|hd720&amp;gt;&lt;/code> sets the video resolution to 720p&lt;/li>
-&lt;li>&lt;code>-b:v 1M&lt;/code> sets the &lt;em>video&lt;/em> bitrate to 1MB/s&lt;/li>
-&lt;/ul></description></item><item><title>Vertically split double PDF pages</title><link>/2019/01/vertically-split-double-pdf-pages/</link><pubDate>Wed, 16 Jan 2019 20:39:54 +0100</pubDate><guid>/2019/01/vertically-split-double-pdf-pages/</guid><description>&lt;p>Some people like to distribute their slides in a printing format, making reading and skipping pages really difficult.&lt;/p>
-&lt;p>&lt;code>mupdf&lt;/code>, among other options, has a CLI utility to overcome this and have as a result one slide per page.&lt;/p>
-&lt;pre tabindex="0">&lt;code>mutool poster -y 2 in.pdf out.pdf
-&lt;/code>&lt;/pre></description></item><item><title>Building a router with a Raspberry Pi and OpenWRT</title><link>/1/01/building-a-router-with-a-raspberry-pi-and-openwrt/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/1/01/building-a-router-with-a-raspberry-pi-and-openwrt/</guid><description>&lt;p>&lt;img src="/img/rpi-openwrt/pi-wrt.jpeg" alt="">&lt;/p>
+&lt;/code>&lt;/pre></description></item><item><title>Building a router with a Raspberry Pi and OpenWRT</title><link>/2019/07/building-a-router-with-a-raspberry-pi-and-openwrt/</link><pubDate>Sat, 06 Jul 2019 00:00:00 +0000</pubDate><guid>/2019/07/building-a-router-with-a-raspberry-pi-and-openwrt/</guid><description>&lt;p>&lt;img src="/img/rpi-openwrt/pi-wrt.jpeg" alt="">&lt;/p>
 &lt;p>OpenWRT is a well known distribution among routers. It provides a wide variety of possibilities with the inclusion of a package manager &lt;code>opkg&lt;/code>. Here I&amp;rsquo;m going to be installing OpenWRT on a Raspberry Pi 3 B+ and creating a wireless access point with its own subnet that doesn&amp;rsquo;t have access to the rest of the network. This could be useful for isolating IoT devices or creating a &amp;lsquo;&amp;lsquo;guest&amp;rsquo;&amp;rsquo; network.&lt;/p>
 &lt;p>The &lt;a href="https://openwrt.org/toh/raspberry_pi_foundation/raspberry_pi">OpenWRT Wiki&lt;/a> gives a bit of light on the installation of OpenWRT on the Pi. First of all I&amp;rsquo;m going to use the &lt;strong>snapshot&lt;/strong> build instead of the release located at &lt;a href="https://downloads.openwrt.org/snapshots/targets/brcm2708/bcm2710/">https://downloads.openwrt.org/snapshots/targets/brcm2708/bcm2710/&lt;/a>. If you use the release build the onboard wi-fi will not be detected.&lt;/p>
 &lt;p>There are a few considerations before flashing the image that should be worth taking a look:&lt;/p>
@@ -495,4 +439,61 @@ option src_ip &amp;#39;192.168.2.0/24&amp;#39;
 option dest_ip &amp;#39;192.168.1.0/24&amp;#39;
 option target &amp;#39;DROP&amp;#39;
 option dest &amp;#39;*&amp;#39;
-&lt;/code>&lt;/pre>&lt;p>All of this can also be done in the web interface, but I put here the config files for clarity&amp;rsquo;s sake.&lt;/p></description></item></channel></rss>
+&lt;/code>&lt;/pre>&lt;p>All of this can also be done in the web interface, but I put here the config files for clarity&amp;rsquo;s sake.&lt;/p></description></item><item><title>About</title><link>/about/</link><pubDate>Thu, 28 Feb 2019 00:00:00 +0000</pubDate><guid>/about/</guid><description>&lt;p>Written in Go, Hugo is an open source static site generator available under the &lt;a href="https://github.com/gohugoio/hugo/blob/master/LICENSE">Apache Licence 2.0.&lt;/a> Hugo supports TOML, YAML and JSON data file types, Markdown and HTML content files and uses shortcodes to add rich content. Other notable features are taxonomies, multilingual mode, image processing, custom output formats, HTML/CSS/JS minification and support for Sass SCSS workflows.&lt;/p>
+&lt;p>Hugo makes use of a variety of open source projects including:&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://github.com/yuin/goldmark">https://github.com/yuin/goldmark&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://github.com/alecthomas/chroma">https://github.com/alecthomas/chroma&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://github.com/muesli/smartcrop">https://github.com/muesli/smartcrop&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://github.com/spf13/cobra">https://github.com/spf13/cobra&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://github.com/spf13/viper">https://github.com/spf13/viper&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>Hugo is ideal for blogs, corporate websites, creative portfolios, online magazines, single page applications or even a website with thousands of pages.&lt;/p>
+&lt;p>Hugo is for people who want to hand code their own website without worrying about setting up complicated runtimes, dependencies and databases.&lt;/p>
+&lt;p>Websites built with Hugo are extremelly fast, secure and can be deployed anywhere including, AWS, GitHub Pages, Heroku, Netlify and any other hosting provider.&lt;/p>
+&lt;p>Learn more and contribute on &lt;a href="https://github.com/gohugoio">GitHub&lt;/a>.&lt;/p></description></item><item><title>Subpage</title><link>/about/subpage/</link><pubDate>Thu, 28 Feb 2019 00:00:00 +0000</pubDate><guid>/about/subpage/</guid><description>&lt;p>Just a subpage of About.&lt;/p></description></item><item><title>FFmpeg, the video Swiss Army Knife</title><link>/2019/01/ffmpeg-the-video-swiss-army-knife/</link><pubDate>Thu, 24 Jan 2019 10:55:30 +0100</pubDate><guid>/2019/01/ffmpeg-the-video-swiss-army-knife/</guid><description>&lt;p>You may have found yourself in a situation where you have to modify a video or extract its audio. Firing up a complete editor for such simple tasks could be a waste of energy and time.&lt;/p>
+&lt;p>Here are some basic tips for FFmpeg that can sometimes make your workflow more efficient:&lt;/p>
+&lt;h2 id="change-the-aspect-ratio-of-a-video-without-re-encoding" >Change the aspect ratio of a video without re-encoding
+&lt;span>
+&lt;a href="#change-the-aspect-ratio-of-a-video-without-re-encoding">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;p>This can be useful when the only thing we want to do is changing the proportions of a video without losing quality.&lt;/p>
+&lt;p>For example for converting a 4:3 video to an stretched 16:9:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">ffmpeg -i in.mp4 -aspect 16:9 -c copy out.mp4
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;img src="/img/ffmpeg_aspect.png" alt="4:3 to 16:9">&lt;/p>
+&lt;p>The &lt;code>-c copy&lt;/code> option allows setting up the codec to a copy mode where ffmpeg doesn&amp;rsquo;t reencode the video and the results are done immediately.&lt;/p>
+&lt;h2 id="extracting-audio-from-a-file" >Extracting audio from a file
+&lt;span>
+&lt;a href="#extracting-audio-from-a-file">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">ffmpeg -i in.mp4 out.mp3
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;strong>Note:&lt;/strong> the extensions shown here are completely arbitrary, ffmpeg supports a wide variety of codecs and formats which can be seen with the commands &lt;code>ffmpeg -codecs&lt;/code> and &lt;code>ffmpeg -formats&lt;/code>&lt;/p>
+&lt;h2 id="cutting-a-video-file-without-reencoding" >Cutting a video file without reencoding
+&lt;span>
+&lt;a href="#cutting-a-video-file-without-reencoding">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">ffmpeg -i in.mp4 -ss 00:00:25.0 -codec copy -t &lt;span class="m">30&lt;/span> out.mp4
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;em>In this case the cut starts on second 25 and the video lasts 30 seconds&lt;/em>&lt;/p>
+&lt;h2 id="converting-a-video-to-other-format" >Converting a video to other format
+&lt;span>
+&lt;a href="#converting-a-video-to-other-format">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">ffmpeg -i in.ogv -c:v libx264 out.mp4
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>&lt;code>-c:v libx264&lt;/code> sets the video codec&lt;/li>
+&lt;li>&lt;code>-c:a vorbis&lt;/code> sets the audio codec&lt;/li>
+&lt;li>&lt;code>-r 25&lt;/code> sets the framerate to 25fps&lt;/li>
+&lt;li>&lt;code>-s &amp;lt;1280x720|hd720&amp;gt;&lt;/code> sets the video resolution to 720p&lt;/li>
+&lt;li>&lt;code>-b:v 1M&lt;/code> sets the &lt;em>video&lt;/em> bitrate to 1MB/s&lt;/li>
+&lt;/ul></description></item><item><title>Vertically split double PDF pages</title><link>/2019/01/vertically-split-double-pdf-pages/</link><pubDate>Wed, 16 Jan 2019 20:39:54 +0100</pubDate><guid>/2019/01/vertically-split-double-pdf-pages/</guid><description>&lt;p>Some people like to distribute their slides in a printing format, making reading and skipping pages really difficult.&lt;/p>
+&lt;p>&lt;code>mupdf&lt;/code>, among other options, has a CLI utility to overcome this and have as a result one slide per page.&lt;/p>
+&lt;pre tabindex="0">&lt;code>mutool poster -y 2 in.pdf out.pdf
+&lt;/code>&lt;/pre></description></item></channel></rss>

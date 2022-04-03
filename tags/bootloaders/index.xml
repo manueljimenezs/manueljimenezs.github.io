@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>bootloaders on manueljimenezs</title><link>/tags/bootloaders/</link><description>manueljimenezs (bootloaders)</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 29 Oct 2019 20:39:54 +0100</lastBuildDate><atom:link href="/tags/bootloaders/index.xml" rel="self" type="application/rss+xml"/><item><title>rEFInd: An elegant bootloader</title><link>/2019/10/refind-an-elegant-bootloader/</link><pubDate>Tue, 29 Oct 2019 20:39:54 +0100</pubDate><guid>/2019/10/refind-an-elegant-bootloader/</guid><description>&lt;p>&lt;img src="/img/refind_scr.png" alt="Refind Bootloader">&lt;/p>
+&lt;h1 id="introduction" >Introduction
+&lt;span>
+&lt;a href="#introduction">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h1>&lt;p>From the year 2013, Microsoft switched its operating system&amp;rsquo;s booting mode to a technology called EFI, already being used in Macs for a long time.&lt;/p>
+&lt;p>In UEFI (The PC implementation) multiple applications can coexist, this means you can combine multiple bootloaders such as Windows Boot, GRUB, systemd-boot without taking over each other.&lt;/p>
+&lt;h1 id="efi-requirements" >EFI Requirements
+&lt;span>
+&lt;a href="#efi-requirements">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h1>&lt;ul>
+&lt;li>Your motherboard has to be supported (&amp;gt;2013)&lt;/li>
+&lt;li>Your disk has to be formatted in GPT instead of MBR&lt;/li>
+&lt;li>You need an ESP (EFI system partition) that stores all the &lt;em>bootable&lt;/em> executables&lt;/li>
+&lt;/ul>
+&lt;h2 id="the-esp" >The ESP
+&lt;span>
+&lt;a href="#the-esp">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;p>The ESP (EFI system partition) is a small FAT32 partition (~512MB) that stores all the bootloaders:&lt;/p>
+&lt;pre tabindex="0">&lt;code>.
+├── Boot
+│   ├── BOOT.CSV
+│   ├── bootx64.efi
+│   └── ref.bak
+├── Microsoft
+│   ├── Boot
+│   └── Recovery
+├── refind
+│   ├── BOOT.CSV
+│   ├── drivers_x64
+│   ├── icons
+│   ├── keys
+│   ├── refind.conf
+│   ├── refind.conf.bak
+│   ├── refind_x64.efi
+│   └── themes
+├── tools
+└── ubuntu
+├── fw
+└── fwupx64.efi
+&lt;/code>&lt;/pre>&lt;p>The default bootloader is stored in the firmware level in something we call &lt;em>EFI Variables&lt;/em> that we&amp;rsquo;ll configure in just a moment. In some motherboards the default bootloader can be chosen in the motherboard config screen.&lt;/p>
+&lt;p>The &lt;code>Boot&lt;/code> directory is a fallback option just in case those variables are not set, you could copy any &lt;code>.efi&lt;/code> file in other folder to &lt;code>bootx64.efi&lt;/code> to make it your fallback option.&lt;/p>
+&lt;h1 id="refind" >rEFInd
+&lt;span>
+&lt;a href="#refind">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h1>&lt;p>rEFInd is a graphic bootloader that is smart enough to find the bootable entries without much configuration, it is also able to remember the last booted option to be selected on the next boot. It is also able to boot USB sticks and be bootable from any install media.&lt;/p>
+&lt;h2 id="manual-install" >Manual install
+&lt;span>
+&lt;a href="#manual-install">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;p>Supposing you have an ESP partition in a GPT disk (If you are using Windows 10, you probably are) you just have to copy &lt;a href="https://sourceforge.net/projects/refind/files/0.11.4/refind-bin-0.11.4.zip/download">the refind folder&lt;/a> into the /EFI folder of the ESP (There are also OS-specific installers that do this)&lt;/p>
+&lt;p>Once copied you have to tell your motherboard to boot from it by default.&lt;/p>
+&lt;p>In Linux there is an utility that list the boot order called &lt;code>efibootmgr&lt;/code>&lt;/p>
+&lt;pre tabindex="0">&lt;code>BootCurrent: 0002
+Timeout: 1 seconds
+BootOrder: 0002,0000,0006,0001,0003,0004
+Boot0000* Windows Boot Manager
+Boot0001* UEFI:CD/DVD Drive
+Boot0002* rEFInd Boot Manager
+Boot0003* UEFI:Removable Device
+Boot0004* UEFI:Network Device
+Boot0006* proxmox
+&lt;/code>&lt;/pre>&lt;p>To add rEFInd:&lt;/p>
+&lt;p>&lt;code>efibootmgr -c -l \\EFI\\refind\\refind_x64.efi -L rEFInd&lt;/code>&lt;/p>
+&lt;p>To change the boot order:&lt;/p>
+&lt;p>&lt;code>efibootmgr -o 0,1,2&lt;/code>&lt;/p>
+&lt;p>To remove an entry:&lt;/p>
+&lt;p>&lt;code>efibootmgr -Bb 0000&lt;/code>&lt;/p>
+&lt;p>Refind has a &lt;code>refind.conf&lt;/code> and lots of themes to customize it.&lt;/p>
+&lt;h2 id="adding-linux" >Adding Linux
+&lt;span>
+&lt;a href="#adding-linux">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;p>Windows is automatically detected by refind and some Linux distros too, but if you want to be sure add a &lt;code>refind_linux.conf&lt;/code> file into your Linux Partition in the &lt;code>/boot/&lt;/code> directory:&lt;/p>
+&lt;pre tabindex="0">&lt;code>&amp;#34;Boot using default options&amp;#34; &amp;#34;root=PARTUUID=a9fbd673-2ba9-4dcd-be6b-97423dd74c89 rw initrd=/boot/amd-ucode.img initrd=/boot/initramfs-%v.img&amp;#34;
+&lt;/code>&lt;/pre>&lt;p>the root points to the ID of the partition in which the distro is installed, it can be retrieved with &lt;code>blkid&lt;/code>.&lt;/p>
+&lt;h2 id="extra-ubuntu-copying-kernels-to-esp" >Extra: Ubuntu: Copying kernels to ESP
+&lt;span>
+&lt;a href="#extra-ubuntu-copying-kernels-to-esp">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;pre tabindex="0">&lt;code>manu@x240:~$ cat /etc/kernel/postinst.d/zz-kernel-esp
+#!/bin/bash
+#
+# This is a simple custom kernel hook to populate the systemd-boot entries
+# whenever kernels are added or removed during an update.
+#
+vmlinuz=$(find /boot -maxdepth 1 -name &amp;#34;vmlinuz-*-generic&amp;#34;)
+version=$(echo $vmlinuz | grep -o -P &amp;#34;\d+\.\d+\.\d+\-\d+&amp;#34; | sort -V | head -n -1)
+latest=$(echo $vmlinuz | grep -o -P &amp;#34;\d+\.\d+\.\d+\-\d+&amp;#34; | sort -V | tail -n 1)
+echo &amp;#34;&amp;gt;&amp;gt; COPYING ${latest}-generic. LATEST VERSION.&amp;#34;
+for file in initrd.img vmlinuz; do
+cp &amp;#34;/boot/${file}-${latest}-generic&amp;#34; &amp;#34;/boot/efi/EFI/ubuntu/${file}-generic&amp;#34;
+done
+&lt;/code>&lt;/pre></description></item></channel></rss>
