@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>hugo on manueljimenezs</title><link>/tags/hugo/</link><description>manueljimenezs (hugo)</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sun, 03 Apr 2022 00:00:00 +0000</lastBuildDate><atom:link href="/tags/hugo/index.xml" rel="self" type="application/rss+xml"/><item><title>This blog now runs under Hugo</title><link>/2022/04/this-blog-now-runs-under-hugo/</link><pubDate>Sun, 03 Apr 2022 00:00:00 +0000</pubDate><guid>/2022/04/this-blog-now-runs-under-hugo/</guid><description>&lt;p>So I wanted to give another chance to Hugo, I was using Jekyll for a while but I didn&amp;rsquo;t quite like the hassle of managing ruby dependencies and versions.&lt;/p>
+&lt;p>At the same time, I also took the opportunity to entirely redo the layout of the page, using the &lt;a href="https://themes.gohugo.io/themes/hugo-theme-anubis/">Anubis&lt;/a> theme as a base. I liked that the old design was quite minimal and i wanted to preserve that. I also tried to avoid using JavaScript so if you block it, it will look exactly the same, on any device 😁.&lt;/p>
+&lt;p>Now I use two repositories for managing this page, one repo for serving the static build, and other repo for making the edits.&lt;/p>
+&lt;p>Using a &lt;a href="https://github.com/peaceiris/actions-hugo">workflow&lt;/a> is very convenient with this setup becase you can write posts from everywhere without having a local enviroment to deploy.&lt;/p>
+&lt;h1 id="setting-up-the-environment" >Setting up the environment
+&lt;span>
+&lt;a href="#setting-up-the-environment">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h1>&lt;p>If you want to make a similar setup, here&amp;rsquo;s the steps to reproduce it:&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>Create the &lt;code>user.github.io&lt;/code> repo, here is where you will deploy the final statified webpage.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Create another repo &lt;code>myblog-hugo&lt;/code>, here is where you will edit the page.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Create a new personal access token &lt;strong>and copy the code generated!&lt;/strong>:
+&lt;a href="https://github.com/settings/tokens/new">https://github.com/settings/tokens/new&lt;/a>&lt;/p>
+&lt;p>&lt;em>Note that maybe you have to check the &lt;code>repo&lt;/code> checkbox while generating the token, so push access from one repo to another is allowed.&lt;/em>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Go to both repositories &amp;gt; section Secrets and add a new Secret pasting the code generated. Name it as you like (e.g &lt;code>hugosecret&lt;/code>).&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>In your &lt;code>myblog-hugo&lt;/code> repo, create the following file at &lt;code>.github/workflows/main.yml&lt;/code> with this content, changing the &lt;code>&amp;lt;user&amp;gt;&lt;/code> variable to your liking.&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#ae81ff">hugo build&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">on&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">push&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">branches&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#ae81ff">master&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">jobs&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">build-deploy&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">runs-on&lt;/span>: &lt;span style="color:#ae81ff">ubuntu-latest&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">steps&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#f92672">uses&lt;/span>: &lt;span style="color:#ae81ff">actions/checkout@v3&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#ae81ff">Setup Hugo&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">uses&lt;/span>: &lt;span style="color:#ae81ff">peaceiris/actions-hugo@v2&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">with&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">hugo-version&lt;/span>: &lt;span style="color:#e6db74">&amp;#39;0.96.0&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#ae81ff">Build&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">run&lt;/span>: &lt;span style="color:#ae81ff">hugo --minify&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - &lt;span style="color:#f92672">name&lt;/span>: &lt;span style="color:#ae81ff">Deploy&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">uses&lt;/span>: &lt;span style="color:#ae81ff">peaceiris/actions-gh-pages@v2&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">env&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">PERSONAL_TOKEN&lt;/span>: &lt;span style="color:#ae81ff">${{ secrets.HUGOSECRET }}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">EXTERNAL_REPOSITORY&lt;/span>: &lt;span style="color:#ae81ff">&amp;lt;user&amp;gt;/&amp;lt;user&amp;gt;.github.io&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">PUBLISH_BRANCH&lt;/span>: &lt;span style="color:#ae81ff">master&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">PUBLISH_DIR&lt;/span>: &lt;span style="color:#ae81ff">./public/&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item></channel></rss>
