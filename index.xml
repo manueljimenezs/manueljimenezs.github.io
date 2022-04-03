@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>manueljimenezs</title><link>manueljimenezs.github.io/</link><description>manueljimenezs</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sun, 03 Apr 2022 00:00:00 +0000</lastBuildDate><atom:link href="manueljimenezs.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>This blog now runs under Hugo</title><link>manueljimenezs.github.io/2022/04/this-blog-now-runs-under-hugo/</link><pubDate>Sun, 03 Apr 2022 00:00:00 +0000</pubDate><guid>manueljimenezs.github.io/2022/04/this-blog-now-runs-under-hugo/</guid><description>&lt;p>So I wanted to give another chance to Hugo, I was using Jekyll for a while but I didn&amp;rsquo;t quite like the hassle of managing ruby dependencies and versions.&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>manueljimenezs</title><link>https://manueljimenezs.github.io/</link><description>manueljimenezs</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sun, 03 Apr 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://manueljimenezs.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>This blog now runs under Hugo</title><link>https://manueljimenezs.github.io/2022/04/this-blog-now-runs-under-hugo/</link><pubDate>Sun, 03 Apr 2022 00:00:00 +0000</pubDate><guid>https://manueljimenezs.github.io/2022/04/this-blog-now-runs-under-hugo/</guid><description>&lt;p>So I wanted to give another chance to Hugo, I was using Jekyll for a while but I didn&amp;rsquo;t quite like the hassle of managing ruby dependencies and versions.&lt;/p>
 &lt;p>At the same time, I also took the opportunity to entirely redo the layout of the page, using the &lt;a href="https://themes.gohugo.io/themes/hugo-theme-anubis/">Anubis&lt;/a> theme as a base. I liked that the old design was quite minimal and i wanted to preserve that. I also tried to avoid using JavaScript so if you block it, it will look exactly the same, on any device 😁.&lt;/p>
 &lt;p>Also migrating the posts from one platform to another worked flawlessly with almost no modification to the source files 👍.&lt;/p>
 &lt;p>Now I use two repositories for managing this page, one repo for serving the static build, and other repo for making the edits.&lt;/p>
@@ -59,7 +59,7 @@
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">EXTERNAL_REPOSITORY&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">&amp;lt;user&amp;gt;/&amp;lt;user&amp;gt;.github.io&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">PUBLISH_BRANCH&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">master&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">PUBLISH_DIR&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">./public/&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>How I ended up compiling my own Linux kernel</title><link>manueljimenezs.github.io/2021/09/how-i-ended-up-compiling-my-own-linux-kernel/</link><pubDate>Mon, 20 Sep 2021 00:00:00 +0000</pubDate><guid>manueljimenezs.github.io/2021/09/how-i-ended-up-compiling-my-own-linux-kernel/</guid><description>&lt;p>I didn&amp;rsquo;t expect this day would arrive. It&amp;rsquo;s all fun and games until you buy a cheap graphic card with only a DVI port in it. It works great for FullHD resolutions. The problem is when you have resolutions and framerates bigger than that.&lt;/p>
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>How I ended up compiling my own Linux kernel</title><link>https://manueljimenezs.github.io/2021/09/how-i-ended-up-compiling-my-own-linux-kernel/</link><pubDate>Mon, 20 Sep 2021 00:00:00 +0000</pubDate><guid>https://manueljimenezs.github.io/2021/09/how-i-ended-up-compiling-my-own-linux-kernel/</guid><description>&lt;p>I didn&amp;rsquo;t expect this day would arrive. It&amp;rsquo;s all fun and games until you buy a cheap graphic card with only a DVI port in it. It works great for FullHD resolutions. The problem is when you have resolutions and framerates bigger than that.&lt;/p>
 &lt;p>In the Linux kernel, the maximum pixel clock (the speed at which pixels are transmitted over a port) is limited to 165 MHz leading to messing with the images when displaying bigger resolutions than fullHD.&lt;/p>
 &lt;p>There are two solutions to this problem:&lt;/p>
 &lt;ul>
@@ -135,7 +135,7 @@
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">build
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>On each update you would have to increase the kernel version and recompile the new kernel to copy it to your bootdir.&lt;/p>
 &lt;p>Also, you would have to blacklist the &lt;code>linux&lt;/code> package on your distribution&amp;rsquo;s package manager so it doesn&amp;rsquo;t automatically update and you don&amp;rsquo;t lose the changes made.&lt;/p>
-&lt;p>In the case of Archlinux, as aaalwayss ;)) the wiki clearly explains it: &lt;a href="https://wiki.archlinux.org/title/Pacman#Skip_package_from_being_upgraded">link&lt;/a>&lt;/p></description></item><item><title>Full-disk encryption on Archlinux with LVM+LUKS+BTRFS</title><link>manueljimenezs.github.io/2020/05/full-disk-encryption-on-archlinux-with-lvm-luks-btrfs/</link><pubDate>Thu, 28 May 2020 19:19:54 +0100</pubDate><guid>manueljimenezs.github.io/2020/05/full-disk-encryption-on-archlinux-with-lvm-luks-btrfs/</guid><description>&lt;p>This article will guide you through a basic Archlinux installation with full-disk encryption and the usage of the BTRFS filesystem for managing subvolumes and snapshots.&lt;/p>
+&lt;p>In the case of Archlinux, as aaalwayss ;)) the wiki clearly explains it: &lt;a href="https://wiki.archlinux.org/title/Pacman#Skip_package_from_being_upgraded">link&lt;/a>&lt;/p></description></item><item><title>Full-disk encryption on Archlinux with LVM+LUKS+BTRFS</title><link>https://manueljimenezs.github.io/2020/05/full-disk-encryption-on-archlinux-with-lvm-luks-btrfs/</link><pubDate>Thu, 28 May 2020 19:19:54 +0100</pubDate><guid>https://manueljimenezs.github.io/2020/05/full-disk-encryption-on-archlinux-with-lvm-luks-btrfs/</guid><description>&lt;p>This article will guide you through a basic Archlinux installation with full-disk encryption and the usage of the BTRFS filesystem for managing subvolumes and snapshots.&lt;/p>
 &lt;p>The steps shown here are all available in the Arch Wiki, but I wanted to make an installation example from scratch until OS startup.&lt;/p>
 &lt;p>This installation will presume you are booting from an &lt;strong>EFI System&lt;/strong> and that you will be using a SWAP partition. Again, this is a concrete real-world example but feel free to make it match to your likings.&lt;/p>
 &lt;h2 id="planning-the-disk-layout" >Planning the disk layout
@@ -150,7 +150,7 @@
 &lt;li>&lt;code>/dev/sda1&lt;/code>, the ESP (UEFI Boot Partition) that will hold our kernel and the bootloader. Formatted as FAT32 with a size of 512MB with &lt;code>mkfs.fat -F 32 /dev/sda1&lt;/code>&lt;/li>
 &lt;li>&lt;code>/dev/sda2&lt;/code>, is a partition that will contain an encrypted container which at the same time will contain an LVM physical volume which at the same time will contain logical volumes for both the &lt;strong>root&lt;/strong> and &lt;strong>swap&lt;/strong> filesystems. Yeah, this seems a little bit crazy but it is a very flexible configuration :)&lt;/li>
 &lt;/ul>
-&lt;p>&lt;img src="manueljimenezs.github.io/img/2020-05-28-disk-encryption/diagram.png" alt="">&lt;/p>
+&lt;p>&lt;img src="https://manueljimenezs.github.io/img/2020-05-28-disk-encryption/diagram.png" alt="">&lt;/p>
 &lt;h2 id="setting-up-the-disk-layout-and-volumes" >Setting up the disk layout and volumes
 &lt;span>
 &lt;a href="#setting-up-the-disk-layout-and-volumes">
@@ -208,7 +208,7 @@ options luks.uuid=&amp;lt;LUKS_UUID&amp;gt; root=/dev/mapper/secure-system rootf
 &lt;p>Add &lt;code>default arch&lt;/code> inside the &lt;code>loader.conf&lt;/code> file.&lt;/p>
 &lt;p>Edit the HOOKS line in &lt;code>/etc/mkinitcpio.conf&lt;/code> with the following modules:&lt;/p>
 &lt;pre tabindex="0">&lt;code class="language-conf" data-lang="conf">HOOKS=(base systemd autodetect modconf keyboard sd-vconsole block sd-encrypt sd-lvm2 filesystems fsck)
-&lt;/code>&lt;/pre>&lt;p>Lastly run &lt;code>mkinitcpio -p linux&lt;/code> and &lt;code>reboot&lt;/code>. If you&amp;rsquo;re lucky enough you will enter to your newly installed operating system.&lt;/p></description></item><item><title>Running vanilla GNOME on Ubuntu</title><link>manueljimenezs.github.io/2020/03/running-vanilla-gnome-on-ubuntu/</link><pubDate>Mon, 16 Mar 2020 20:19:54 +0100</pubDate><guid>manueljimenezs.github.io/2020/03/running-vanilla-gnome-on-ubuntu/</guid><description>&lt;ul>
+&lt;/code>&lt;/pre>&lt;p>Lastly run &lt;code>mkinitcpio -p linux&lt;/code> and &lt;code>reboot&lt;/code>. If you&amp;rsquo;re lucky enough you will enter to your newly installed operating system.&lt;/p></description></item><item><title>Running vanilla GNOME on Ubuntu</title><link>https://manueljimenezs.github.io/2020/03/running-vanilla-gnome-on-ubuntu/</link><pubDate>Mon, 16 Mar 2020 20:19:54 +0100</pubDate><guid>https://manueljimenezs.github.io/2020/03/running-vanilla-gnome-on-ubuntu/</guid><description>&lt;ul>
 &lt;li>
 &lt;p>Install &lt;code>gnome-session&lt;/code> and some components:&lt;/p>
 &lt;p>&lt;code>sudo apt install gnome-session gnome-tweaks chrome-gnome-shell&lt;/code>&lt;/p>
@@ -222,7 +222,7 @@ options luks.uuid=&amp;lt;LUKS_UUID&amp;gt; root=/dev/mapper/secure-system rootf
 &lt;p>&lt;strong>Log out&lt;/strong> from your PC and switch the session to GNOME by clicking the gear icon&lt;/p>
 &lt;p>Go to extensions.gnome.org and install the User Themes extension&lt;/p>
 &lt;p>Go to Tweaks and set themes, icons, etc in Adwaita&lt;/p>
-&lt;p>&lt;img src="manueljimenezs.github.io/img/2020-03-16-vanilla-gnome/tweaks-style.png" alt="">&lt;/p>
+&lt;p>&lt;img src="https://manueljimenezs.github.io/img/2020-03-16-vanilla-gnome/tweaks-style.png" alt="">&lt;/p>
 &lt;h1 id="removing-snapd" >Removing snapd
 &lt;span>
 &lt;a href="#removing-snapd">
@@ -235,7 +235,7 @@ options luks.uuid=&amp;lt;LUKS_UUID&amp;gt; root=/dev/mapper/secure-system rootf
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">sudo apt autoremove --purge snapd gnome-software-plugin-snap
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">rm -rf ~/snap
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>You may have to run &lt;code>apt install gnome-calculator gnome-system-monitor&lt;/code> to get back some default applications that were initially shipped as snaps.&lt;/p></description></item><item><title>rEFInd: An elegant bootloader</title><link>manueljimenezs.github.io/2019/10/refind-an-elegant-bootloader/</link><pubDate>Tue, 29 Oct 2019 20:39:54 +0100</pubDate><guid>manueljimenezs.github.io/2019/10/refind-an-elegant-bootloader/</guid><description>&lt;p>&lt;img src="manueljimenezs.github.io/img/refind_scr.png" alt="Refind Bootloader">&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>You may have to run &lt;code>apt install gnome-calculator gnome-system-monitor&lt;/code> to get back some default applications that were initially shipped as snaps.&lt;/p></description></item><item><title>rEFInd: An elegant bootloader</title><link>https://manueljimenezs.github.io/2019/10/refind-an-elegant-bootloader/</link><pubDate>Tue, 29 Oct 2019 20:39:54 +0100</pubDate><guid>https://manueljimenezs.github.io/2019/10/refind-an-elegant-bootloader/</guid><description>&lt;p>&lt;img src="https://manueljimenezs.github.io/img/refind_scr.png" alt="Refind Bootloader">&lt;/p>
 &lt;h1 id="introduction" >Introduction
 &lt;span>
 &lt;a href="#introduction">
@@ -345,7 +345,7 @@ echo &amp;#34;&amp;gt;&amp;gt; COPYING ${latest}-generic. LATEST VERSION.&amp;#3
 for file in initrd.img vmlinuz; do
 cp &amp;#34;/boot/${file}-${latest}-generic&amp;#34; &amp;#34;/boot/efi/EFI/ubuntu/${file}-generic&amp;#34;
 done
-&lt;/code>&lt;/pre></description></item><item><title>Building a router with a Raspberry Pi and OpenWRT</title><link>manueljimenezs.github.io/2019/07/building-a-router-with-a-raspberry-pi-and-openwrt/</link><pubDate>Sat, 06 Jul 2019 00:00:00 +0000</pubDate><guid>manueljimenezs.github.io/2019/07/building-a-router-with-a-raspberry-pi-and-openwrt/</guid><description>&lt;p>&lt;img src="manueljimenezs.github.io/img/rpi-openwrt/pi-wrt.jpeg" alt="">&lt;/p>
+&lt;/code>&lt;/pre></description></item><item><title>Building a router with a Raspberry Pi and OpenWRT</title><link>https://manueljimenezs.github.io/2019/07/building-a-router-with-a-raspberry-pi-and-openwrt/</link><pubDate>Sat, 06 Jul 2019 00:00:00 +0000</pubDate><guid>https://manueljimenezs.github.io/2019/07/building-a-router-with-a-raspberry-pi-and-openwrt/</guid><description>&lt;p>&lt;img src="https://manueljimenezs.github.io/img/rpi-openwrt/pi-wrt.jpeg" alt="">&lt;/p>
 &lt;p>OpenWRT is a well known distribution among routers. It provides a wide variety of possibilities with the inclusion of a package manager &lt;code>opkg&lt;/code>. Here I&amp;rsquo;m going to be installing OpenWRT on a Raspberry Pi 3 B+ and creating a wireless access point with its own subnet that doesn&amp;rsquo;t have access to the rest of the network. This could be useful for isolating IoT devices or creating a &amp;lsquo;&amp;lsquo;guest&amp;rsquo;&amp;rsquo; network.&lt;/p>
 &lt;p>The &lt;a href="https://openwrt.org/toh/raspberry_pi_foundation/raspberry_pi">OpenWRT Wiki&lt;/a> gives a bit of light on the installation of OpenWRT on the Pi. First of all I&amp;rsquo;m going to use the &lt;strong>snapshot&lt;/strong> build instead of the release located at &lt;a href="https://downloads.openwrt.org/snapshots/targets/brcm2708/bcm2710/">https://downloads.openwrt.org/snapshots/targets/brcm2708/bcm2710/&lt;/a>. If you use the release build the onboard wi-fi will not be detected.&lt;/p>
 &lt;p>There are a few considerations before flashing the image that should be worth taking a look:&lt;/p>
@@ -382,7 +382,7 @@ option ifname &amp;#39;eth0&amp;#39;
 &lt;/span>
 &lt;/h3>&lt;p>Run &lt;code>opkg update&lt;/code> and then run &lt;code>opkg install luci&lt;/code>. If you want to install packages from the interface also install &lt;code>luci-app-opkg&lt;/code>&lt;/p>
 &lt;p>&lt;code>reboot&lt;/code> the device and access your Pi from a browser:&lt;/p>
-&lt;p>&lt;img src="manueljimenezs.github.io/img/rpi-openwrt/luci-first-boot.png" alt="">&lt;/p>
+&lt;p>&lt;img src="https://manueljimenezs.github.io/img/rpi-openwrt/luci-first-boot.png" alt="">&lt;/p>
 &lt;h2 id="configuring-the-zones-and-creating-an-isolated-ap-for-guests" >Configuring the zones and creating an isolated AP for guests
 &lt;span>
 &lt;a href="#configuring-the-zones-and-creating-an-isolated-ap-for-guests">
@@ -439,7 +439,7 @@ option src_ip &amp;#39;192.168.2.0/24&amp;#39;
 option dest_ip &amp;#39;192.168.1.0/24&amp;#39;
 option target &amp;#39;DROP&amp;#39;
 option dest &amp;#39;*&amp;#39;
-&lt;/code>&lt;/pre>&lt;p>All of this can also be done in the web interface, but I put here the config files for clarity&amp;rsquo;s sake.&lt;/p></description></item><item><title>About</title><link>manueljimenezs.github.io/about/</link><pubDate>Thu, 28 Feb 2019 00:00:00 +0000</pubDate><guid>manueljimenezs.github.io/about/</guid><description>&lt;p>Written in Go, Hugo is an open source static site generator available under the &lt;a href="https://github.com/gohugoio/hugo/blob/master/LICENSE">Apache Licence 2.0.&lt;/a> Hugo supports TOML, YAML and JSON data file types, Markdown and HTML content files and uses shortcodes to add rich content. Other notable features are taxonomies, multilingual mode, image processing, custom output formats, HTML/CSS/JS minification and support for Sass SCSS workflows.&lt;/p>
+&lt;/code>&lt;/pre>&lt;p>All of this can also be done in the web interface, but I put here the config files for clarity&amp;rsquo;s sake.&lt;/p></description></item><item><title>About</title><link>https://manueljimenezs.github.io/about/</link><pubDate>Thu, 28 Feb 2019 00:00:00 +0000</pubDate><guid>https://manueljimenezs.github.io/about/</guid><description>&lt;p>Written in Go, Hugo is an open source static site generator available under the &lt;a href="https://github.com/gohugoio/hugo/blob/master/LICENSE">Apache Licence 2.0.&lt;/a> Hugo supports TOML, YAML and JSON data file types, Markdown and HTML content files and uses shortcodes to add rich content. Other notable features are taxonomies, multilingual mode, image processing, custom output formats, HTML/CSS/JS minification and support for Sass SCSS workflows.&lt;/p>
 &lt;p>Hugo makes use of a variety of open source projects including:&lt;/p>
 &lt;ul>
 &lt;li>&lt;a href="https://github.com/yuin/goldmark">https://github.com/yuin/goldmark&lt;/a>&lt;/li>
@@ -451,7 +451,7 @@ option dest &amp;#39;*&amp;#39;
 &lt;p>Hugo is ideal for blogs, corporate websites, creative portfolios, online magazines, single page applications or even a website with thousands of pages.&lt;/p>
 &lt;p>Hugo is for people who want to hand code their own website without worrying about setting up complicated runtimes, dependencies and databases.&lt;/p>
 &lt;p>Websites built with Hugo are extremelly fast, secure and can be deployed anywhere including, AWS, GitHub Pages, Heroku, Netlify and any other hosting provider.&lt;/p>
-&lt;p>Learn more and contribute on &lt;a href="https://github.com/gohugoio">GitHub&lt;/a>.&lt;/p></description></item><item><title>Subpage</title><link>manueljimenezs.github.io/about/subpage/</link><pubDate>Thu, 28 Feb 2019 00:00:00 +0000</pubDate><guid>manueljimenezs.github.io/about/subpage/</guid><description>&lt;p>Just a subpage of About.&lt;/p></description></item><item><title>FFmpeg, the video Swiss Army Knife</title><link>manueljimenezs.github.io/2019/01/ffmpeg-the-video-swiss-army-knife/</link><pubDate>Thu, 24 Jan 2019 10:55:30 +0100</pubDate><guid>manueljimenezs.github.io/2019/01/ffmpeg-the-video-swiss-army-knife/</guid><description>&lt;p>You may have found yourself in a situation where you have to modify a video or extract its audio. Firing up a complete editor for such simple tasks could be a waste of energy and time.&lt;/p>
+&lt;p>Learn more and contribute on &lt;a href="https://github.com/gohugoio">GitHub&lt;/a>.&lt;/p></description></item><item><title>Subpage</title><link>https://manueljimenezs.github.io/about/subpage/</link><pubDate>Thu, 28 Feb 2019 00:00:00 +0000</pubDate><guid>https://manueljimenezs.github.io/about/subpage/</guid><description>&lt;p>Just a subpage of About.&lt;/p></description></item><item><title>FFmpeg, the video Swiss Army Knife</title><link>https://manueljimenezs.github.io/2019/01/ffmpeg-the-video-swiss-army-knife/</link><pubDate>Thu, 24 Jan 2019 10:55:30 +0100</pubDate><guid>https://manueljimenezs.github.io/2019/01/ffmpeg-the-video-swiss-army-knife/</guid><description>&lt;p>You may have found yourself in a situation where you have to modify a video or extract its audio. Firing up a complete editor for such simple tasks could be a waste of energy and time.&lt;/p>
 &lt;p>Here are some basic tips for FFmpeg that can sometimes make your workflow more efficient:&lt;/p>
 &lt;h2 id="change-the-aspect-ratio-of-a-video-without-re-encoding" >Change the aspect ratio of a video without re-encoding
 &lt;span>
@@ -462,7 +462,7 @@ option dest &amp;#39;*&amp;#39;
 &lt;/h2>&lt;p>This can be useful when the only thing we want to do is changing the proportions of a video without losing quality.&lt;/p>
 &lt;p>For example for converting a 4:3 video to an stretched 16:9:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">ffmpeg -i in.mp4 -aspect 16:9 -c copy out.mp4
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;img src="manueljimenezs.github.io/img/ffmpeg_aspect.png" alt="4:3 to 16:9">&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;img src="https://manueljimenezs.github.io/img/ffmpeg_aspect.png" alt="4:3 to 16:9">&lt;/p>
 &lt;p>The &lt;code>-c copy&lt;/code> option allows setting up the codec to a copy mode where ffmpeg doesn&amp;rsquo;t reencode the video and the results are done immediately.&lt;/p>
 &lt;h2 id="extracting-audio-from-a-file" >Extracting audio from a file
 &lt;span>
@@ -493,7 +493,7 @@ option dest &amp;#39;*&amp;#39;
 &lt;li>&lt;code>-r 25&lt;/code> sets the framerate to 25fps&lt;/li>
 &lt;li>&lt;code>-s &amp;lt;1280x720|hd720&amp;gt;&lt;/code> sets the video resolution to 720p&lt;/li>
 &lt;li>&lt;code>-b:v 1M&lt;/code> sets the &lt;em>video&lt;/em> bitrate to 1MB/s&lt;/li>
-&lt;/ul></description></item><item><title>Vertically split double PDF pages</title><link>manueljimenezs.github.io/2019/01/vertically-split-double-pdf-pages/</link><pubDate>Wed, 16 Jan 2019 20:39:54 +0100</pubDate><guid>manueljimenezs.github.io/2019/01/vertically-split-double-pdf-pages/</guid><description>&lt;p>Some people like to distribute their slides in a printing format, making reading and skipping pages really difficult.&lt;/p>
+&lt;/ul></description></item><item><title>Vertically split double PDF pages</title><link>https://manueljimenezs.github.io/2019/01/vertically-split-double-pdf-pages/</link><pubDate>Wed, 16 Jan 2019 20:39:54 +0100</pubDate><guid>https://manueljimenezs.github.io/2019/01/vertically-split-double-pdf-pages/</guid><description>&lt;p>Some people like to distribute their slides in a printing format, making reading and skipping pages really difficult.&lt;/p>
 &lt;p>&lt;code>mupdf&lt;/code>, among other options, has a CLI utility to overcome this and have as a result one slide per page.&lt;/p>
 &lt;pre tabindex="0">&lt;code>mutool poster -y 2 in.pdf out.pdf
 &lt;/code>&lt;/pre></description></item></channel></rss>
