@@ -150,7 +150,7 @@
 &lt;li>&lt;code>/dev/sda1&lt;/code>, the ESP (UEFI Boot Partition) that will hold our kernel and the bootloader. Formatted as FAT32 with a size of 512MB with &lt;code>mkfs.fat -F 32 /dev/sda1&lt;/code>&lt;/li>
 &lt;li>&lt;code>/dev/sda2&lt;/code>, is a partition that will contain an encrypted container which at the same time will contain an LVM physical volume which at the same time will contain logical volumes for both the &lt;strong>root&lt;/strong> and &lt;strong>swap&lt;/strong> filesystems. Yeah, this seems a little bit crazy but it is a very flexible configuration :)&lt;/li>
 &lt;/ul>
-&lt;p>&lt;img src="https://manueljimenezs.github.io/img/2020-05-28-disk-encryption/diagram.png" alt="">&lt;/p>
+&lt;p>&lt;img src="https://manueljimenezs.github.io/img/2020-05-28-disk-encryption/diagram.svg" alt="">&lt;/p>
 &lt;h2 id="setting-up-the-disk-layout-and-volumes" >Setting up the disk layout and volumes
 &lt;span>
 &lt;a href="#setting-up-the-disk-layout-and-volumes">
