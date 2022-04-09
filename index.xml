@@ -135,7 +135,24 @@
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">build
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>On each update you would have to increase the kernel version and recompile the new kernel to copy it to your bootdir.&lt;/p>
 &lt;p>Also, you would have to blacklist the &lt;code>linux&lt;/code> package on your distribution&amp;rsquo;s package manager so it doesn&amp;rsquo;t automatically update and you don&amp;rsquo;t lose the changes made.&lt;/p>
-&lt;p>In the case of Archlinux, as aaalwayss ;)) the wiki clearly explains it: &lt;a href="https://wiki.archlinux.org/title/Pacman#Skip_package_from_being_upgraded">link&lt;/a>&lt;/p></description></item><item><title>Full-disk encryption on Archlinux with LVM+LUKS+BTRFS</title><link>https://manueljimenezs.github.io/2020/05/full-disk-encryption-on-archlinux-with-lvm-luks-btrfs/</link><pubDate>Thu, 28 May 2020 19:19:54 +0100</pubDate><guid>https://manueljimenezs.github.io/2020/05/full-disk-encryption-on-archlinux-with-lvm-luks-btrfs/</guid><description>&lt;p>This article will guide you through a basic Archlinux installation with full-disk encryption and the usage of the BTRFS filesystem for managing subvolumes and snapshots.&lt;/p>
+&lt;p>In the case of Archlinux, as aaalwayss ;)) the wiki clearly explains it: &lt;a href="https://wiki.archlinux.org/title/Pacman#Skip_package_from_being_upgraded">link&lt;/a>&lt;/p></description></item><item><title>Full-disk encryption on Archlinux with LVM+LUKS+BTRFS</title><link>https://manueljimenezs.github.io/2020/05/full-disk-encryption-on-archlinux-with-lvm-luks-btrfs/</link><pubDate>Thu, 28 May 2020 19:19:54 +0100</pubDate><guid>https://manueljimenezs.github.io/2020/05/full-disk-encryption-on-archlinux-with-lvm-luks-btrfs/</guid><description>&lt;hr>
+&lt;h1>Table Of Contents&lt;/h1>
+&lt;div class="toc">
+&lt;nav id="TableOfContents">
+&lt;ul>
+&lt;li>
+&lt;ul>
+&lt;li>&lt;a href="#planning-the-disk-layout">Planning the disk layout&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#setting-up-the-disk-layout-and-volumes">Setting up the disk layout and volumes&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#continue-with-the-usual-arch-install">Continue with the usual Arch install&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#finishing-the-installation">Finishing the installation&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/nav>
+&lt;/div>
+&lt;hr>
+&lt;p>This article will guide you through a basic Archlinux installation with full-disk encryption and the usage of the BTRFS filesystem for managing subvolumes and snapshots.&lt;/p>
 &lt;p>The steps shown here are all available in the Arch Wiki, but I wanted to make an installation example from scratch until OS startup.&lt;/p>
 &lt;p>This installation will presume you are booting from an &lt;strong>EFI System&lt;/strong> and that you will be using a SWAP partition. Again, this is a concrete real-world example but feel free to make it match to your likings.&lt;/p>
 &lt;h2 id="planning-the-disk-layout" >Planning the disk layout
@@ -150,7 +167,7 @@
 &lt;li>&lt;code>/dev/sda1&lt;/code>, the ESP (UEFI Boot Partition) that will hold our kernel and the bootloader. Formatted as FAT32 with a size of 512MB with &lt;code>mkfs.fat -F 32 /dev/sda1&lt;/code>&lt;/li>
 &lt;li>&lt;code>/dev/sda2&lt;/code>, is a partition that will contain an encrypted container which at the same time will contain an LVM physical volume which at the same time will contain logical volumes for both the &lt;strong>root&lt;/strong> and &lt;strong>swap&lt;/strong> filesystems. Yeah, this seems a little bit crazy but it is a very flexible configuration :)&lt;/li>
 &lt;/ul>
-&lt;p>&lt;img src="https://manueljimenezs.github.io/img/2020-05-28-disk-encryption/diagram.svg" alt="">&lt;/p>
+&lt;div class="invert" >&lt;img src="https://manueljimenezs.github.io/img/2020-05-28-disk-encryption/diagram.svg" alt="">&lt;/div>
 &lt;h2 id="setting-up-the-disk-layout-and-volumes" >Setting up the disk layout and volumes
 &lt;span>
 &lt;a href="#setting-up-the-disk-layout-and-volumes">
@@ -235,7 +252,29 @@ options luks.uuid=&amp;lt;LUKS_UUID&amp;gt; root=/dev/mapper/secure-system rootf
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">sudo apt autoremove --purge snapd gnome-software-plugin-snap
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">rm -rf ~/snap
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>You may have to run &lt;code>apt install gnome-calculator gnome-system-monitor&lt;/code> to get back some default applications that were initially shipped as snaps.&lt;/p></description></item><item><title>rEFInd: An elegant bootloader</title><link>https://manueljimenezs.github.io/2019/10/refind-an-elegant-bootloader/</link><pubDate>Tue, 29 Oct 2019 20:39:54 +0100</pubDate><guid>https://manueljimenezs.github.io/2019/10/refind-an-elegant-bootloader/</guid><description>&lt;p>&lt;img src="https://manueljimenezs.github.io/img/refind_scr.png" alt="Refind Bootloader">&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>You may have to run &lt;code>apt install gnome-calculator gnome-system-monitor&lt;/code> to get back some default applications that were initially shipped as snaps.&lt;/p></description></item><item><title>rEFInd: An elegant bootloader</title><link>https://manueljimenezs.github.io/2019/10/refind-an-elegant-bootloader/</link><pubDate>Tue, 29 Oct 2019 20:39:54 +0100</pubDate><guid>https://manueljimenezs.github.io/2019/10/refind-an-elegant-bootloader/</guid><description>&lt;hr>
+&lt;h1>Table Of Contents&lt;/h1>
+&lt;div class="toc">
+&lt;nav id="TableOfContents">
+&lt;ul>
+&lt;li>&lt;a href="#introduction">Introduction&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#efi-requirements">EFI Requirements&lt;/a>
+&lt;ul>
+&lt;li>&lt;a href="#the-esp">The ESP&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="#refind">rEFInd&lt;/a>
+&lt;ul>
+&lt;li>&lt;a href="#manual-install">Manual install&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#adding-linux">Adding Linux&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#extra-ubuntu-copying-kernels-to-esp">Extra: Ubuntu: Copying kernels to ESP&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/nav>
+&lt;/div>
+&lt;hr>
+&lt;p>&lt;img src="https://manueljimenezs.github.io/img/refind_scr.png" alt="Refind Bootloader">&lt;/p>
 &lt;h1 id="introduction" >Introduction
 &lt;span>
 &lt;a href="#introduction">
@@ -452,6 +491,23 @@ option dest &amp;#39;*&amp;#39;
 &lt;p>Hugo is for people who want to hand code their own website without worrying about setting up complicated runtimes, dependencies and databases.&lt;/p>
 &lt;p>Websites built with Hugo are extremelly fast, secure and can be deployed anywhere including, AWS, GitHub Pages, Heroku, Netlify and any other hosting provider.&lt;/p>
 &lt;p>Learn more and contribute on &lt;a href="https://github.com/gohugoio">GitHub&lt;/a>.&lt;/p></description></item><item><title>Subpage</title><link>https://manueljimenezs.github.io/about/subpage/</link><pubDate>Thu, 28 Feb 2019 00:00:00 +0000</pubDate><guid>https://manueljimenezs.github.io/about/subpage/</guid><description>&lt;p>Just a subpage of About.&lt;/p></description></item><item><title>FFmpeg, the video Swiss Army Knife</title><link>https://manueljimenezs.github.io/2019/01/ffmpeg-the-video-swiss-army-knife/</link><pubDate>Thu, 24 Jan 2019 10:55:30 +0100</pubDate><guid>https://manueljimenezs.github.io/2019/01/ffmpeg-the-video-swiss-army-knife/</guid><description>&lt;p>You may have found yourself in a situation where you have to modify a video or extract its audio. Firing up a complete editor for such simple tasks could be a waste of energy and time.&lt;/p>
+&lt;hr>
+&lt;h1>Table Of Contents&lt;/h1>
+&lt;div class="toc">
+&lt;nav id="TableOfContents">
+&lt;ul>
+&lt;li>
+&lt;ul>
+&lt;li>&lt;a href="#change-the-aspect-ratio-of-a-video-without-re-encoding">Change the aspect ratio of a video without re-encoding&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#extracting-audio-from-a-file">Extracting audio from a file&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#cutting-a-video-file-without-reencoding">Cutting a video file without reencoding&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#converting-a-video-to-other-format">Converting a video to other format&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/nav>
+&lt;/div>
+&lt;hr>
 &lt;p>Here are some basic tips for FFmpeg that can sometimes make your workflow more efficient:&lt;/p>
 &lt;h2 id="change-the-aspect-ratio-of-a-video-without-re-encoding" >Change the aspect ratio of a video without re-encoding
 &lt;span>

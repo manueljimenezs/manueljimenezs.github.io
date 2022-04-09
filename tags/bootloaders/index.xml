@@ -1,4 +1,26 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>bootloaders on manueljimenezs</title><link>https://manueljimenezs.github.io/tags/bootloaders/</link><description>manueljimenezs (bootloaders)</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 29 Oct 2019 20:39:54 +0100</lastBuildDate><atom:link href="https://manueljimenezs.github.io/tags/bootloaders/index.xml" rel="self" type="application/rss+xml"/><item><title>rEFInd: An elegant bootloader</title><link>https://manueljimenezs.github.io/2019/10/refind-an-elegant-bootloader/</link><pubDate>Tue, 29 Oct 2019 20:39:54 +0100</pubDate><guid>https://manueljimenezs.github.io/2019/10/refind-an-elegant-bootloader/</guid><description>&lt;p>&lt;img src="https://manueljimenezs.github.io/img/refind_scr.png" alt="Refind Bootloader">&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>bootloaders on manueljimenezs</title><link>https://manueljimenezs.github.io/tags/bootloaders/</link><description>manueljimenezs (bootloaders)</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 29 Oct 2019 20:39:54 +0100</lastBuildDate><atom:link href="https://manueljimenezs.github.io/tags/bootloaders/index.xml" rel="self" type="application/rss+xml"/><item><title>rEFInd: An elegant bootloader</title><link>https://manueljimenezs.github.io/2019/10/refind-an-elegant-bootloader/</link><pubDate>Tue, 29 Oct 2019 20:39:54 +0100</pubDate><guid>https://manueljimenezs.github.io/2019/10/refind-an-elegant-bootloader/</guid><description>&lt;hr>
+&lt;h1>Table Of Contents&lt;/h1>
+&lt;div class="toc">
+&lt;nav id="TableOfContents">
+&lt;ul>
+&lt;li>&lt;a href="#introduction">Introduction&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#efi-requirements">EFI Requirements&lt;/a>
+&lt;ul>
+&lt;li>&lt;a href="#the-esp">The ESP&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="#refind">rEFInd&lt;/a>
+&lt;ul>
+&lt;li>&lt;a href="#manual-install">Manual install&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#adding-linux">Adding Linux&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#extra-ubuntu-copying-kernels-to-esp">Extra: Ubuntu: Copying kernels to ESP&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/nav>
+&lt;/div>
+&lt;hr>
+&lt;p>&lt;img src="https://manueljimenezs.github.io/img/refind_scr.png" alt="Refind Bootloader">&lt;/p>
 &lt;h1 id="introduction" >Introduction
 &lt;span>
 &lt;a href="#introduction">

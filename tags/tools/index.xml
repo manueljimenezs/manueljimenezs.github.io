@@ -75,6 +75,23 @@
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>On each update you would have to increase the kernel version and recompile the new kernel to copy it to your bootdir.&lt;/p>
 &lt;p>Also, you would have to blacklist the &lt;code>linux&lt;/code> package on your distribution&amp;rsquo;s package manager so it doesn&amp;rsquo;t automatically update and you don&amp;rsquo;t lose the changes made.&lt;/p>
 &lt;p>In the case of Archlinux, as aaalwayss ;)) the wiki clearly explains it: &lt;a href="https://wiki.archlinux.org/title/Pacman#Skip_package_from_being_upgraded">link&lt;/a>&lt;/p></description></item><item><title>FFmpeg, the video Swiss Army Knife</title><link>https://manueljimenezs.github.io/2019/01/ffmpeg-the-video-swiss-army-knife/</link><pubDate>Thu, 24 Jan 2019 10:55:30 +0100</pubDate><guid>https://manueljimenezs.github.io/2019/01/ffmpeg-the-video-swiss-army-knife/</guid><description>&lt;p>You may have found yourself in a situation where you have to modify a video or extract its audio. Firing up a complete editor for such simple tasks could be a waste of energy and time.&lt;/p>
+&lt;hr>
+&lt;h1>Table Of Contents&lt;/h1>
+&lt;div class="toc">
+&lt;nav id="TableOfContents">
+&lt;ul>
+&lt;li>
+&lt;ul>
+&lt;li>&lt;a href="#change-the-aspect-ratio-of-a-video-without-re-encoding">Change the aspect ratio of a video without re-encoding&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#extracting-audio-from-a-file">Extracting audio from a file&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#cutting-a-video-file-without-reencoding">Cutting a video file without reencoding&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#converting-a-video-to-other-format">Converting a video to other format&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/nav>
+&lt;/div>
+&lt;hr>
 &lt;p>Here are some basic tips for FFmpeg that can sometimes make your workflow more efficient:&lt;/p>
 &lt;h2 id="change-the-aspect-ratio-of-a-video-without-re-encoding" >Change the aspect ratio of a video without re-encoding
 &lt;span>

@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>cli on manueljimenezs</title><link>https://manueljimenezs.github.io/tags/cli/</link><description>manueljimenezs (cli)</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 24 Jan 2019 10:55:30 +0100</lastBuildDate><atom:link href="https://manueljimenezs.github.io/tags/cli/index.xml" rel="self" type="application/rss+xml"/><item><title>FFmpeg, the video Swiss Army Knife</title><link>https://manueljimenezs.github.io/2019/01/ffmpeg-the-video-swiss-army-knife/</link><pubDate>Thu, 24 Jan 2019 10:55:30 +0100</pubDate><guid>https://manueljimenezs.github.io/2019/01/ffmpeg-the-video-swiss-army-knife/</guid><description>&lt;p>You may have found yourself in a situation where you have to modify a video or extract its audio. Firing up a complete editor for such simple tasks could be a waste of energy and time.&lt;/p>
+&lt;hr>
+&lt;h1>Table Of Contents&lt;/h1>
+&lt;div class="toc">
+&lt;nav id="TableOfContents">
+&lt;ul>
+&lt;li>
+&lt;ul>
+&lt;li>&lt;a href="#change-the-aspect-ratio-of-a-video-without-re-encoding">Change the aspect ratio of a video without re-encoding&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#extracting-audio-from-a-file">Extracting audio from a file&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#cutting-a-video-file-without-reencoding">Cutting a video file without reencoding&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#converting-a-video-to-other-format">Converting a video to other format&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/nav>
+&lt;/div>
+&lt;hr>
 &lt;p>Here are some basic tips for FFmpeg that can sometimes make your workflow more efficient:&lt;/p>
 &lt;h2 id="change-the-aspect-ratio-of-a-video-without-re-encoding" >Change the aspect ratio of a video without re-encoding
 &lt;span>
