@@ -20,7 +20,9 @@
 &lt;/nav>
 &lt;/div>
 &lt;hr>
-&lt;p>&lt;img src="https://manueljimenezs.github.io/img/refind_scr.png" alt="Refind Bootloader">&lt;/p>
+&lt;p>
+&lt;img src="https://manueljimenezs.github.io/img/refind_scr.png" alt="Refind Bootloader">
+&lt;/p>
 &lt;h1 id="introduction" >Introduction
 &lt;span>
 &lt;a href="#introduction">

@@ -1,4 +1,63 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on manueljimenezs</title><link>https://manueljimenezs.github.io/posts/</link><description>manueljimenezs (Posts)</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sun, 03 Apr 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://manueljimenezs.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>This blog now runs under Hugo</title><link>https://manueljimenezs.github.io/2022/04/this-blog-now-runs-under-hugo/</link><pubDate>Sun, 03 Apr 2022 00:00:00 +0000</pubDate><guid>https://manueljimenezs.github.io/2022/04/this-blog-now-runs-under-hugo/</guid><description>&lt;p>So I wanted to give another chance to Hugo, I was using Jekyll for a while but I didn&amp;rsquo;t quite like the hassle of managing ruby dependencies and versions.&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on manueljimenezs</title><link>https://manueljimenezs.github.io/posts/</link><description>manueljimenezs (Posts)</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sat, 09 Apr 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://manueljimenezs.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Enriching your articles with Hugo</title><link>https://manueljimenezs.github.io/2022/04/enriching-your-articles-with-hugo/</link><pubDate>Sat, 09 Apr 2022 00:00:00 +0000</pubDate><guid>https://manueljimenezs.github.io/2022/04/enriching-your-articles-with-hugo/</guid><description>&lt;p>Hugo has some tricks to enrich the contents of the posts and is highly customizable. With some imagination, one can implement features that are in no way inferior to some popular CMS out there.&lt;/p>
+&lt;h2 id="table-of-contents" >Table of contents
+&lt;span>
+&lt;a href="#table-of-contents">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;p>When writing a long post, a table of contents can be quite useful to quickly access parts of the article. Hugo comes with a &lt;code>TableOfContents&lt;/code> module by default. We&amp;rsquo;re going to use something called &lt;a href="https://gohugo.io/content-management/shortcodes/">shortcodes&lt;/a>. Shortcodes allow you to write small snippets of code that are triggered with a macro. This way we can optionally add a table of contents.&lt;/p>
+&lt;p>We&amp;rsquo;re gonna create a file &lt;code>layouts/shortcodes/toc.html&lt;/code> with the following content:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-html" data-lang="html">&lt;span class="line">&lt;span class="cl">&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">hr&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">h1&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>Table Of Contents&lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">h1&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">div&lt;/span> &lt;span class="na">class&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;toc&amp;#34;&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> {{ .Page.TableOfContents }}
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">div&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">hr&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Next time we add &lt;code>{{ toc }}&lt;/code> inside a Markdown file, it will insert a new table of contents in that place.&lt;/p>
+&lt;h2 id="add-captions-to-images" >Add captions to images
+&lt;span>
+&lt;a href="#add-captions-to-images">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;p>Another useful feature is having descriptions of the images inserted. In this case we are going to take advantage of the &lt;code>title&lt;/code> property of the &lt;code>img&lt;/code> tag.&lt;/p>
+&lt;p>We are also going to take advantage of the Markdown syntax for inserting images: While the usual way to inserting images is like this &lt;code>![Alt text](location)&lt;/code>, you can also add a title that will not be displayed like this &lt;code>![Alt text](location &amp;quot;my description&amp;quot;)&lt;/code>.&lt;/p>
+&lt;p>Create this file: &lt;code>layouts/_default/_markup/render-image.html&lt;/code>&lt;/p>
+&lt;pre tabindex="0">&lt;code>{{ if .Title }}
+&amp;lt;figure&amp;gt;
+&amp;lt;img src=&amp;#34;{{ .Destination | safeURL }}&amp;#34; alt=&amp;#34;{{ .Text }}&amp;#34;&amp;gt;
+&amp;lt;figcaption&amp;gt;{{ .Title }}&amp;lt;/figcaption&amp;gt;
+&amp;lt;/figure&amp;gt;
+{{ else }}
+&amp;lt;img src=&amp;#34;{{ .Destination | safeURL }}&amp;#34; alt=&amp;#34;{{ .Text }}&amp;#34;&amp;gt;
+{{ end }}
+&lt;/code>&lt;/pre>&lt;p>Now you can add images with captions whenever you want, jump to the next section to see an example of an image with such feature.&lt;/p>
+&lt;h2 id="invert-some-diagrams-and-images-on-dark-mode" >Invert (some) diagrams and images on dark mode
+&lt;span>
+&lt;a href="#invert-some-diagrams-and-images-on-dark-mode">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;p>This is a greeeat feature 👌, especially for the actual users of dark mode, so they don&amp;rsquo;t get blinded with white squares!. Again we are going to use shortcodes. This shortcode is pretty simple, when used, the content inside will be surrounded by an &lt;code>.invert&lt;/code> class, just add this snippet of code to &lt;code>layouts/shortcodes/invert.html&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-html" data-lang="html">&lt;span class="line">&lt;span class="cl">&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">div&lt;/span> &lt;span class="na">class&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;invert&amp;#34;&lt;/span> &lt;span class="p">&amp;gt;&lt;/span>{{ .Inner | markdownify }}&lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">div&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>You will also need to do something with that class. In my case I went to my theme&amp;rsquo;s css, located in &lt;code>themes/mytheme/assets/css/main.css&lt;/code>. Inside the dark mode condition, we will insert this code, which will invert the images located inside that class:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-css" data-lang="css">&lt;span class="line">&lt;span class="cl">&lt;span class="p">@&lt;/span>&lt;span class="k">media&lt;/span> &lt;span class="o">(&lt;/span>&lt;span class="nt">prefers-color-scheme&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="nt">dark&lt;/span>&lt;span class="o">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">.&lt;/span>&lt;span class="nc">invert&lt;/span> &lt;span class="nt">img&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kp">-webkit-&lt;/span>&lt;span class="k">filter&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="nb">invert&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">85&lt;/span>&lt;span class="kt">%&lt;/span>&lt;span class="p">);&lt;/span> &lt;span class="c">/* safari 6.0 - 9.0 */&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">filter&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="nb">invert&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">85&lt;/span>&lt;span class="kt">%&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Finally, in any Markdown document you could insert the following tag, and automatically that image will be inverted, useful for diagrams, not that mich for photos. That&amp;rsquo;s why we don&amp;rsquo;t want to always apply the inversion:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-md" data-lang="md">&lt;span class="line">&lt;span class="cl">{{&lt;span class="p">&amp;lt;&lt;/span> &lt;span class="nt">invert&lt;/span> &lt;span class="p">&amp;gt;&lt;/span>}}
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">![&lt;span class="nt">Alt Txt&lt;/span>](&lt;span class="na">/img/test.svg&lt;/span>)
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">{{&lt;span class="p">&amp;lt;&lt;/span> &lt;span class="p">/&lt;/span>&lt;span class="nt">invert&lt;/span> &lt;span class="p">&amp;gt;&lt;/span>}}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Here&amp;rsquo;s an example: (try toggling your system to dark/light mode!)&lt;/p>
+&lt;div class="invert" >&lt;figure>
+&lt;img src="https://manueljimenezs.github.io/img/systemd.dependency.service.svg" alt="Alt Txt">
+&lt;figcaption>This diagram will adapt to the theme of the page&lt;/figcaption>
+&lt;/figure>&lt;/div>
+&lt;p>Sources&lt;/p>
+&lt;p>&lt;a href="https://ruddra.com/hugo-add-toc-anywhere/">ruddra&lt;/a> | &lt;a href="https://sebastiandedeyne.com/captioned-images-with-markdown-render-hooks-in-hugo/">sebastiandedeyne&lt;/a>&lt;/p></description></item><item><title>This blog now runs under Hugo</title><link>https://manueljimenezs.github.io/2022/04/this-blog-now-runs-under-hugo/</link><pubDate>Sun, 03 Apr 2022 00:00:00 +0000</pubDate><guid>https://manueljimenezs.github.io/2022/04/this-blog-now-runs-under-hugo/</guid><description>&lt;p>So I wanted to give another chance to Hugo, I was using Jekyll for a while but I didn&amp;rsquo;t quite like the hassle of managing ruby dependencies and versions.&lt;/p>
 &lt;p>At the same time, I also took the opportunity to entirely redo the layout of the page, using the &lt;a href="https://themes.gohugo.io/themes/hugo-theme-anubis/">Anubis&lt;/a> theme as a base. I liked that the old design was quite minimal and i wanted to preserve that. I also tried to avoid using JavaScript so if you block it, it will look exactly the same, on any device 😁.&lt;/p>
 &lt;p>Also migrating the posts from one platform to another worked flawlessly with almost no modification to the source files 👍.&lt;/p>
 &lt;p>Now I use two repositories for managing this page, one repo for serving the static build, and other repo for making the edits.&lt;/p>
@@ -239,7 +298,9 @@ options luks.uuid=&amp;lt;LUKS_UUID&amp;gt; root=/dev/mapper/secure-system rootf
 &lt;p>&lt;strong>Log out&lt;/strong> from your PC and switch the session to GNOME by clicking the gear icon&lt;/p>
 &lt;p>Go to extensions.gnome.org and install the User Themes extension&lt;/p>
 &lt;p>Go to Tweaks and set themes, icons, etc in Adwaita&lt;/p>
-&lt;p>&lt;img src="https://manueljimenezs.github.io/img/2020-03-16-vanilla-gnome/tweaks-style.png" alt="">&lt;/p>
+&lt;p>
+&lt;img src="https://manueljimenezs.github.io/img/2020-03-16-vanilla-gnome/tweaks-style.png" alt="">
+&lt;/p>
 &lt;h1 id="removing-snapd" >Removing snapd
 &lt;span>
 &lt;a href="#removing-snapd">
@@ -274,7 +335,9 @@ options luks.uuid=&amp;lt;LUKS_UUID&amp;gt; root=/dev/mapper/secure-system rootf
 &lt;/nav>
 &lt;/div>
 &lt;hr>
-&lt;p>&lt;img src="https://manueljimenezs.github.io/img/refind_scr.png" alt="Refind Bootloader">&lt;/p>
+&lt;p>
+&lt;img src="https://manueljimenezs.github.io/img/refind_scr.png" alt="Refind Bootloader">
+&lt;/p>
 &lt;h1 id="introduction" >Introduction
 &lt;span>
 &lt;a href="#introduction">
@@ -384,7 +447,9 @@ echo &amp;#34;&amp;gt;&amp;gt; COPYING ${latest}-generic. LATEST VERSION.&amp;#3
 for file in initrd.img vmlinuz; do
 cp &amp;#34;/boot/${file}-${latest}-generic&amp;#34; &amp;#34;/boot/efi/EFI/ubuntu/${file}-generic&amp;#34;
 done
-&lt;/code>&lt;/pre></description></item><item><title>Building a router with a Raspberry Pi and OpenWRT</title><link>https://manueljimenezs.github.io/2019/07/building-a-router-with-a-raspberry-pi-and-openwrt/</link><pubDate>Sat, 06 Jul 2019 00:00:00 +0000</pubDate><guid>https://manueljimenezs.github.io/2019/07/building-a-router-with-a-raspberry-pi-and-openwrt/</guid><description>&lt;p>&lt;img src="https://manueljimenezs.github.io/img/rpi-openwrt/pi-wrt.jpeg" alt="">&lt;/p>
+&lt;/code>&lt;/pre></description></item><item><title>Building a router with a Raspberry Pi and OpenWRT</title><link>https://manueljimenezs.github.io/2019/07/building-a-router-with-a-raspberry-pi-and-openwrt/</link><pubDate>Sat, 06 Jul 2019 00:00:00 +0000</pubDate><guid>https://manueljimenezs.github.io/2019/07/building-a-router-with-a-raspberry-pi-and-openwrt/</guid><description>&lt;p>
+&lt;img src="https://manueljimenezs.github.io/img/rpi-openwrt/pi-wrt.jpeg" alt="">
+&lt;/p>
 &lt;p>OpenWRT is a well known distribution among routers. It provides a wide variety of possibilities with the inclusion of a package manager &lt;code>opkg&lt;/code>. Here I&amp;rsquo;m going to be installing OpenWRT on a Raspberry Pi 3 B+ and creating a wireless access point with its own subnet that doesn&amp;rsquo;t have access to the rest of the network. This could be useful for isolating IoT devices or creating a &amp;lsquo;&amp;lsquo;guest&amp;rsquo;&amp;rsquo; network.&lt;/p>
 &lt;p>The &lt;a href="https://openwrt.org/toh/raspberry_pi_foundation/raspberry_pi">OpenWRT Wiki&lt;/a> gives a bit of light on the installation of OpenWRT on the Pi. First of all I&amp;rsquo;m going to use the &lt;strong>snapshot&lt;/strong> build instead of the release located at &lt;a href="https://downloads.openwrt.org/snapshots/targets/brcm2708/bcm2710/">https://downloads.openwrt.org/snapshots/targets/brcm2708/bcm2710/&lt;/a>. If you use the release build the onboard wi-fi will not be detected.&lt;/p>
 &lt;p>There are a few considerations before flashing the image that should be worth taking a look:&lt;/p>
@@ -421,7 +486,9 @@ option ifname &amp;#39;eth0&amp;#39;
 &lt;/span>
 &lt;/h3>&lt;p>Run &lt;code>opkg update&lt;/code> and then run &lt;code>opkg install luci&lt;/code>. If you want to install packages from the interface also install &lt;code>luci-app-opkg&lt;/code>&lt;/p>
 &lt;p>&lt;code>reboot&lt;/code> the device and access your Pi from a browser:&lt;/p>
-&lt;p>&lt;img src="https://manueljimenezs.github.io/img/rpi-openwrt/luci-first-boot.png" alt="">&lt;/p>
+&lt;p>
+&lt;img src="https://manueljimenezs.github.io/img/rpi-openwrt/luci-first-boot.png" alt="">
+&lt;/p>
 &lt;h2 id="configuring-the-zones-and-creating-an-isolated-ap-for-guests" >Configuring the zones and creating an isolated AP for guests
 &lt;span>
 &lt;a href="#configuring-the-zones-and-creating-an-isolated-ap-for-guests">
@@ -506,7 +573,9 @@ option dest &amp;#39;*&amp;#39;
 &lt;/h2>&lt;p>This can be useful when the only thing we want to do is changing the proportions of a video without losing quality.&lt;/p>
 &lt;p>For example for converting a 4:3 video to an stretched 16:9:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">ffmpeg -i in.mp4 -aspect 16:9 -c copy out.mp4
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;img src="https://manueljimenezs.github.io/img/ffmpeg_aspect.png" alt="4:3 to 16:9">&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>
+&lt;img src="https://manueljimenezs.github.io/img/ffmpeg_aspect.png" alt="4:3 to 16:9">
+&lt;/p>
 &lt;p>The &lt;code>-c copy&lt;/code> option allows setting up the codec to a copy mode where ffmpeg doesn&amp;rsquo;t reencode the video and the results are done immediately.&lt;/p>
 &lt;h2 id="extracting-audio-from-a-file" >Extracting audio from a file
 &lt;span>

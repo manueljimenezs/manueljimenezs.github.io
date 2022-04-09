@@ -102,7 +102,9 @@
 &lt;/h2>&lt;p>This can be useful when the only thing we want to do is changing the proportions of a video without losing quality.&lt;/p>
 &lt;p>For example for converting a 4:3 video to an stretched 16:9:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">ffmpeg -i in.mp4 -aspect 16:9 -c copy out.mp4
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;img src="https://manueljimenezs.github.io/img/ffmpeg_aspect.png" alt="4:3 to 16:9">&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>
+&lt;img src="https://manueljimenezs.github.io/img/ffmpeg_aspect.png" alt="4:3 to 16:9">
+&lt;/p>
 &lt;p>The &lt;code>-c copy&lt;/code> option allows setting up the codec to a copy mode where ffmpeg doesn&amp;rsquo;t reencode the video and the results are done immediately.&lt;/p>
 &lt;h2 id="extracting-audio-from-a-file" >Extracting audio from a file
 &lt;span>

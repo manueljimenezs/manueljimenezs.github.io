@@ -1,4 +1,63 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>hugo on manueljimenezs</title><link>https://manueljimenezs.github.io/tags/hugo/</link><description>manueljimenezs (hugo)</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sun, 03 Apr 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://manueljimenezs.github.io/tags/hugo/index.xml" rel="self" type="application/rss+xml"/><item><title>This blog now runs under Hugo</title><link>https://manueljimenezs.github.io/2022/04/this-blog-now-runs-under-hugo/</link><pubDate>Sun, 03 Apr 2022 00:00:00 +0000</pubDate><guid>https://manueljimenezs.github.io/2022/04/this-blog-now-runs-under-hugo/</guid><description>&lt;p>So I wanted to give another chance to Hugo, I was using Jekyll for a while but I didn&amp;rsquo;t quite like the hassle of managing ruby dependencies and versions.&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>hugo on manueljimenezs</title><link>https://manueljimenezs.github.io/tags/hugo/</link><description>manueljimenezs (hugo)</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sat, 09 Apr 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://manueljimenezs.github.io/tags/hugo/index.xml" rel="self" type="application/rss+xml"/><item><title>Enriching your articles with Hugo</title><link>https://manueljimenezs.github.io/2022/04/enriching-your-articles-with-hugo/</link><pubDate>Sat, 09 Apr 2022 00:00:00 +0000</pubDate><guid>https://manueljimenezs.github.io/2022/04/enriching-your-articles-with-hugo/</guid><description>&lt;p>Hugo has some tricks to enrich the contents of the posts and is highly customizable. With some imagination, one can implement features that are in no way inferior to some popular CMS out there.&lt;/p>
+&lt;h2 id="table-of-contents" >Table of contents
+&lt;span>
+&lt;a href="#table-of-contents">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;p>When writing a long post, a table of contents can be quite useful to quickly access parts of the article. Hugo comes with a &lt;code>TableOfContents&lt;/code> module by default. We&amp;rsquo;re going to use something called &lt;a href="https://gohugo.io/content-management/shortcodes/">shortcodes&lt;/a>. Shortcodes allow you to write small snippets of code that are triggered with a macro. This way we can optionally add a table of contents.&lt;/p>
+&lt;p>We&amp;rsquo;re gonna create a file &lt;code>layouts/shortcodes/toc.html&lt;/code> with the following content:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-html" data-lang="html">&lt;span class="line">&lt;span class="cl">&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">hr&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">h1&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>Table Of Contents&lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">h1&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">div&lt;/span> &lt;span class="na">class&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;toc&amp;#34;&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> {{ .Page.TableOfContents }}
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">div&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">hr&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Next time we add &lt;code>{{ toc }}&lt;/code> inside a Markdown file, it will insert a new table of contents in that place.&lt;/p>
+&lt;h2 id="add-captions-to-images" >Add captions to images
+&lt;span>
+&lt;a href="#add-captions-to-images">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;p>Another useful feature is having descriptions of the images inserted. In this case we are going to take advantage of the &lt;code>title&lt;/code> property of the &lt;code>img&lt;/code> tag.&lt;/p>
+&lt;p>We are also going to take advantage of the Markdown syntax for inserting images: While the usual way to inserting images is like this &lt;code>![Alt text](location)&lt;/code>, you can also add a title that will not be displayed like this &lt;code>![Alt text](location &amp;quot;my description&amp;quot;)&lt;/code>.&lt;/p>
+&lt;p>Create this file: &lt;code>layouts/_default/_markup/render-image.html&lt;/code>&lt;/p>
+&lt;pre tabindex="0">&lt;code>{{ if .Title }}
+&amp;lt;figure&amp;gt;
+&amp;lt;img src=&amp;#34;{{ .Destination | safeURL }}&amp;#34; alt=&amp;#34;{{ .Text }}&amp;#34;&amp;gt;
+&amp;lt;figcaption&amp;gt;{{ .Title }}&amp;lt;/figcaption&amp;gt;
+&amp;lt;/figure&amp;gt;
+{{ else }}
+&amp;lt;img src=&amp;#34;{{ .Destination | safeURL }}&amp;#34; alt=&amp;#34;{{ .Text }}&amp;#34;&amp;gt;
+{{ end }}
+&lt;/code>&lt;/pre>&lt;p>Now you can add images with captions whenever you want, jump to the next section to see an example of an image with such feature.&lt;/p>
+&lt;h2 id="invert-some-diagrams-and-images-on-dark-mode" >Invert (some) diagrams and images on dark mode
+&lt;span>
+&lt;a href="#invert-some-diagrams-and-images-on-dark-mode">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h2>&lt;p>This is a greeeat feature 👌, especially for the actual users of dark mode, so they don&amp;rsquo;t get blinded with white squares!. Again we are going to use shortcodes. This shortcode is pretty simple, when used, the content inside will be surrounded by an &lt;code>.invert&lt;/code> class, just add this snippet of code to &lt;code>layouts/shortcodes/invert.html&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-html" data-lang="html">&lt;span class="line">&lt;span class="cl">&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">div&lt;/span> &lt;span class="na">class&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;invert&amp;#34;&lt;/span> &lt;span class="p">&amp;gt;&lt;/span>{{ .Inner | markdownify }}&lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">div&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>You will also need to do something with that class. In my case I went to my theme&amp;rsquo;s css, located in &lt;code>themes/mytheme/assets/css/main.css&lt;/code>. Inside the dark mode condition, we will insert this code, which will invert the images located inside that class:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-css" data-lang="css">&lt;span class="line">&lt;span class="cl">&lt;span class="p">@&lt;/span>&lt;span class="k">media&lt;/span> &lt;span class="o">(&lt;/span>&lt;span class="nt">prefers-color-scheme&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="nt">dark&lt;/span>&lt;span class="o">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">.&lt;/span>&lt;span class="nc">invert&lt;/span> &lt;span class="nt">img&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kp">-webkit-&lt;/span>&lt;span class="k">filter&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="nb">invert&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">85&lt;/span>&lt;span class="kt">%&lt;/span>&lt;span class="p">);&lt;/span> &lt;span class="c">/* safari 6.0 - 9.0 */&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">filter&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="nb">invert&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">85&lt;/span>&lt;span class="kt">%&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Finally, in any Markdown document you could insert the following tag, and automatically that image will be inverted, useful for diagrams, not that mich for photos. That&amp;rsquo;s why we don&amp;rsquo;t want to always apply the inversion:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-md" data-lang="md">&lt;span class="line">&lt;span class="cl">{{&lt;span class="p">&amp;lt;&lt;/span> &lt;span class="nt">invert&lt;/span> &lt;span class="p">&amp;gt;&lt;/span>}}
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">![&lt;span class="nt">Alt Txt&lt;/span>](&lt;span class="na">/img/test.svg&lt;/span>)
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">{{&lt;span class="p">&amp;lt;&lt;/span> &lt;span class="p">/&lt;/span>&lt;span class="nt">invert&lt;/span> &lt;span class="p">&amp;gt;&lt;/span>}}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Here&amp;rsquo;s an example: (try toggling your system to dark/light mode!)&lt;/p>
+&lt;div class="invert" >&lt;figure>
+&lt;img src="https://manueljimenezs.github.io/img/systemd.dependency.service.svg" alt="Alt Txt">
+&lt;figcaption>This diagram will adapt to the theme of the page&lt;/figcaption>
+&lt;/figure>&lt;/div>
+&lt;p>Sources&lt;/p>
+&lt;p>&lt;a href="https://ruddra.com/hugo-add-toc-anywhere/">ruddra&lt;/a> | &lt;a href="https://sebastiandedeyne.com/captioned-images-with-markdown-render-hooks-in-hugo/">sebastiandedeyne&lt;/a>&lt;/p></description></item><item><title>This blog now runs under Hugo</title><link>https://manueljimenezs.github.io/2022/04/this-blog-now-runs-under-hugo/</link><pubDate>Sun, 03 Apr 2022 00:00:00 +0000</pubDate><guid>https://manueljimenezs.github.io/2022/04/this-blog-now-runs-under-hugo/</guid><description>&lt;p>So I wanted to give another chance to Hugo, I was using Jekyll for a while but I didn&amp;rsquo;t quite like the hassle of managing ruby dependencies and versions.&lt;/p>
 &lt;p>At the same time, I also took the opportunity to entirely redo the layout of the page, using the &lt;a href="https://themes.gohugo.io/themes/hugo-theme-anubis/">Anubis&lt;/a> theme as a base. I liked that the old design was quite minimal and i wanted to preserve that. I also tried to avoid using JavaScript so if you block it, it will look exactly the same, on any device 😁.&lt;/p>
 &lt;p>Also migrating the posts from one platform to another worked flawlessly with almost no modification to the source files 👍.&lt;/p>
 &lt;p>Now I use two repositories for managing this page, one repo for serving the static build, and other repo for making the edits.&lt;/p>
