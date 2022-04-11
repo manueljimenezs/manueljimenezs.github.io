@@ -16,7 +16,12 @@
 &lt;/a>
 &lt;/span>
 &lt;/h2>&lt;p>After a long journey searching on the interwebs, I found that increasing the pixel clock to 250 MHz is enough for WFHD resolutions. There is even a &lt;a href="https://www.monitortests.com/pixelclock.php">calculator&lt;/a> for that.&lt;/p>
-&lt;p>&lt;strong>Note that you may be running your graphics card out of spec, and you can irreversibly damage your hardware so be very cautious with this.&lt;/strong>&lt;/p>
+&lt;div class="notice warning">
+&lt;span class="icon alert">
+&lt;object data="/icons/alert.svg" width="24" height="24">&lt;/object>
+&lt;/span>
+&lt;p>Note that you may be running your graphics card out of spec, and you can &lt;strong>irreversibly damage&lt;/strong> your hardware so be very cautious with this.&lt;/p>
+&lt;/div>
 &lt;p>Here is the line in the Linux kernel that we&amp;rsquo;re going to change. This change is provide as a patch file, which concisely represents how and where a change in a file is made. Something like &lt;code>diff --git oldfile.txt newfile.txt&lt;/code> will suffice.&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-diff" data-lang="diff">&lt;span class="line">&lt;span class="cl">&lt;span class="gd">--- a/drivers/gpu/drm/amd/display/include/signal_types.h 2020-12-17 20:11:00.261706513 +0100
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="gd">&lt;/span>&lt;span class="gi">+++ b/drivers/gpu/drm/amd/display/include/signal_types.h 2020-12-17 20:09:14.391997315 +0100
