@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on manueljimenezs</title><link>https://manueljimenezs.github.io/posts/</link><description>manueljimenezs (Posts)</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sat, 09 Apr 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://manueljimenezs.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Enriching your articles with Hugo</title><link>https://manueljimenezs.github.io/2022/04/enriching-your-articles-with-hugo/</link><pubDate>Sat, 09 Apr 2022 00:00:00 +0000</pubDate><guid>https://manueljimenezs.github.io/2022/04/enriching-your-articles-with-hugo/</guid><description>&lt;p>Hugo has some tricks to enrich the contents of the posts and is highly customizable. With some imagination, one can implement features that are in no way inferior to some popular CMS out there.&lt;/p>
+&lt;hr>
+&lt;h1>Table Of Contents&lt;/h1>
+&lt;div class="toc">
+&lt;nav id="TableOfContents">
+&lt;ul>
+&lt;li>
+&lt;ul>
+&lt;li>&lt;a href="#table-of-contents">Table of contents&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#add-captions-to-images">Add captions to images&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#invert-some-diagrams-and-images-on-dark-mode">Invert (some) diagrams and images on dark mode&lt;/a>&lt;/li>
+&lt;li>&lt;a href="#update-alert-boxes">Update: alert boxes&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/nav>
+&lt;/div>
+&lt;hr>
 &lt;h2 id="table-of-contents" >Table of contents
 &lt;span>
 &lt;a href="#table-of-contents">
