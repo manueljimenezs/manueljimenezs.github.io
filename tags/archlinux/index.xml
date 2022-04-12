@@ -18,7 +18,7 @@
 &lt;/h2>&lt;p>After a long journey searching on the interwebs, I found that increasing the pixel clock to 250 MHz is enough for WFHD resolutions. There is even a &lt;a href="https://www.monitortests.com/pixelclock.php">calculator&lt;/a> for that.&lt;/p>
 &lt;div class="notice warning">
 &lt;span class="icon alert">
-&lt;object data="/icons/alert.svg" width="24" height="24">&lt;/object>
+&lt;object data="/icons/alert.svg" width="20" height="20">&lt;/object>
 &lt;/span>
 &lt;p>Note that you may be running your graphics card out of spec, and you can &lt;strong>irreversibly damage&lt;/strong> your hardware so be very cautious with this.&lt;/p>
 &lt;/div>

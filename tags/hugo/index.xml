@@ -130,15 +130,21 @@ This is a warning
 &lt;/code>&lt;/pre>&lt;p>Aaand, this is the final result 🎉:&lt;/p>
 &lt;div class="notice warning">
 &lt;span class="icon alert">
-&lt;object data="/icons/alert.svg" width="24" height="24">&lt;/object>
+&lt;object data="/icons/alert.svg" width="20" height="20">&lt;/object>
 &lt;/span>
 &lt;p>This is a warning&lt;/p>
 &lt;/div>
 &lt;div class="notice info">
 &lt;span class="icon info">
-&lt;object data="/icons/info.svg" width="24" height="24">&lt;/object>
+&lt;object data="/icons/info.svg" width="20" height="20">&lt;/object>
 &lt;/span>
 &lt;p>This is an info block. (You &lt;em>can&lt;/em> &lt;strong>use&lt;/strong> &lt;code>markdown&lt;/code> &lt;u>code&lt;/u>)&lt;/p>
+&lt;/div>
+&lt;div class="notice note">
+&lt;span class="icon note">
+&lt;object data="/icons/note.svg" width="20" height="20">&lt;/object>
+&lt;/span>
+&lt;p>This is a note block. (You &lt;em>can&lt;/em> &lt;strong>use&lt;/strong> &lt;code>markdown&lt;/code> &lt;u>code&lt;/u>)&lt;/p>
 &lt;/div>
 &lt;p>Sources&lt;/p>
 &lt;p>&lt;a href="https://ruddra.com/hugo-add-toc-anywhere/">ruddra&lt;/a> | &lt;a href="https://sebastiandedeyne.com/captioned-images-with-markdown-render-hooks-in-hugo/">sebastiandedeyne&lt;/a>&lt;/p></description></item><item><title>This blog now runs under Hugo</title><link>https://manueljimenezs.github.io/2022/04/this-blog-now-runs-under-hugo/</link><pubDate>Sun, 03 Apr 2022 00:00:00 +0000</pubDate><guid>https://manueljimenezs.github.io/2022/04/this-blog-now-runs-under-hugo/</guid><description>&lt;p>So I wanted to give another chance to Hugo, I was using Jekyll for a while but I didn&amp;rsquo;t quite like the hassle of managing ruby dependencies and versions.&lt;/p>
