@@ -168,8 +168,13 @@ This is a warning
 &lt;/li>
 &lt;li>
 &lt;p>Create a new personal access token &lt;strong>and copy the code generated!&lt;/strong>:
-&lt;a href="https://github.com/settings/tokens/new">https://github.com/settings/tokens/new&lt;/a>&lt;/p>
-&lt;p>&lt;em>Note that maybe you have to check the &lt;code>repo&lt;/code> checkbox while generating the token, so push access from one repo to another is allowed.&lt;/em>&lt;/p>
+&lt;a href="https://github.com/settings/tokens/new">https://github.com/settings/tokens/new&lt;/a>
+&lt;div class="notice info">
+&lt;span class="icon info">
+&lt;object data="/icons/info.svg" width="20" height="20">&lt;/object>
+&lt;/span>
+&lt;p>Note that maybe you have to check the &lt;code>repo&lt;/code> checkbox while generating the token, so push access from one repo to another is allowed.&lt;/p>
+&lt;/div>&lt;/p>
 &lt;/li>
 &lt;li>
 &lt;p>Go to both repositories &amp;gt; section Secrets and add a new Secret pasting the code generated. Name it as you like (e.g &lt;code>hugosecret&lt;/code>).&lt;/p>
