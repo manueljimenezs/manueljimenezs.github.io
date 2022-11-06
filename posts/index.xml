@@ -1,4 +1,89 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on manueljimenezs</title><link>https://manueljimenezs.github.io/posts/</link><description>manueljimenezs (Posts)</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sat, 09 Apr 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://manueljimenezs.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Enriching your articles with Hugo</title><link>https://manueljimenezs.github.io/2022/04/enriching-your-articles-with-hugo/</link><pubDate>Sat, 09 Apr 2022 00:00:00 +0000</pubDate><guid>https://manueljimenezs.github.io/2022/04/enriching-your-articles-with-hugo/</guid><description>&lt;p>Hugo has some tricks to enrich the contents of the posts and is highly customizable. With some imagination, one can implement features that are in no way inferior to some popular CMS out there.&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on manueljimenezs</title><link>https://manueljimenezs.github.io/posts/</link><description>manueljimenezs (Posts)</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sun, 06 Nov 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://manueljimenezs.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Patching the kernel as a custom package in Archlinux</title><link>https://manueljimenezs.github.io/2022/11/patching-the-kernel-as-a-custom-package-in-archlinux/</link><pubDate>Sun, 06 Nov 2022 00:00:00 +0000</pubDate><guid>https://manueljimenezs.github.io/2022/11/patching-the-kernel-as-a-custom-package-in-archlinux/</guid><description>&lt;p>&lt;a href="https://manueljimenezs.github.io/2021/09/how-i-ended-up-compiling-my-own-linux-kernel/">Following the adventure of patching the linux kernel&lt;/a>, I tried to automate it a bit. Part of the process is well documented as always in the &lt;a href="https://wiki.archlinux.org/title/Kernel/Arch_Build_System">wiki&lt;/a>&lt;/p>
+&lt;p>The idea is to fetch the official Archlinux sources for the linux kernel so we can modify them and add our patches.&lt;/p>
+&lt;div class="notice info">
+&lt;span class="icon info">
+&lt;object data="/icons/info.svg" width="20" height="20">&lt;/object>
+&lt;/span>
+&lt;p>Could I buy a graphics card with a normal HDMI port for a hundred bucks and skip all of this mess? Yes, but where is the fun in that?&lt;/p>
+&lt;/div>
+&lt;p>Start by creating a new src folder in your homedir.&lt;/p>
+&lt;p>We will need the &lt;code>asp&lt;/code> package that will take care of fetching the sources for us by issuing these commands:&lt;/p>
+&lt;pre tabindex="0">&lt;code>asp update
+asp export linux
+&lt;/code>&lt;/pre>&lt;p>I will also add my custom kernel patches in a &lt;code>patches/*.diff&lt;/code> dir, you can see
+&lt;a href="https://manueljimenezs.github.io/2021/09/how-i-ended-up-compiling-my-own-linux-kernel/">why I need to patch the kernel here&lt;/a>&lt;/p>
+&lt;p>There is also another issue here: the config for the kernel issued by asp is different than the upstream package, meaning that we will need to modify it, otherwise my system, which is a BTRFS filesystem, will not boot:&lt;/p>
+&lt;pre tabindex="0">&lt;code>cd linux
+mv config config.old
+sed -r &amp;#34;s/^(|#)CONFIG_BTRFS_FS=.*/CONFIG_BTRFS_FS=y/g&amp;#34; config.old &amp;gt; config
+&lt;/code>&lt;/pre>&lt;p>I also built a PKGBUILD patch with e.g &lt;code>diff -Naru PKGBUILD PKGBUILD.old &amp;gt; custom_PKGBUILD.patch&lt;/code> to apply it on each kernel release, this gets rid of building the docs and their dependencies, also does a shallow clone and introduces my &lt;code>0001-amdgpu-clock.patch&lt;/code> patchfile. That way the build will take less time:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-patch" data-lang="patch">&lt;span class="line">&lt;span class="cl">&lt;span class="gd">--- PKGBUILD 2022-10-29 12:28:27.038231602 +0200
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="gd">&lt;/span>&lt;span class="gi">+++ PKGBUILD 2022-10-29 12:28:27.038231602 +0200
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="gi">&lt;/span>&lt;span class="gu">@@ -1,6 +1,6 @@
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="gu">&lt;/span> # Maintainer: Jan Alexander Steffens (heftig) &amp;lt;heftig@archlinux.org&amp;gt;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="gd">-pkgbase=linux
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="gd">&lt;/span>&lt;span class="gi">+pkgbase=linux-amdclock
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="gi">&lt;/span> pkgver=6.0.5.arch1
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> pkgrel=1
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> pkgdesc=&amp;#39;Linux&amp;#39;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="gu">@@ -10,14 +10,13 @@
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="gu">&lt;/span> license=(GPL2)
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> makedepends=(
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> bc libelf pahole cpio perl tar xz
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="gd">- xmlto python-sphinx python-sphinx_rtd_theme graphviz imagemagick texlive-latexextra
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="gd">&lt;/span> git
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> )
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> options=(&amp;#39;!strip&amp;#39;)
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> _srcname=archlinux-linux
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> source=(
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="gd">- &amp;#34;$_srcname::git+https://github.com/archlinux/linux?signed#tag=$_srctag&amp;#34;
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="gd">&lt;/span> config # the main kernel config file
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="gi">+ 0001-amdgpu-clock.patch
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="gi">&lt;/span> )
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> validpgpkeys=(
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &amp;#39;ABAF11C65A2970B130ABE3C479BE3E4300411886&amp;#39; # Linus Torvalds
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="gu">@@ -26,13 +25,14 @@
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="gu">&lt;/span> &amp;#39;C7E7849466FE2358343588377258734B41C31549&amp;#39; # David Runge &amp;lt;dvzrv@archlinux.org&amp;gt;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> )
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> sha256sums=(&amp;#39;SKIP&amp;#39;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="gd">- &amp;#39;05168cbbeb6378eec6c84fe3300cede4fa5cf6130c39fb8af95040529bd390a6&amp;#39;)
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="gd">&lt;/span>&lt;span class="gi">+ &amp;#39;SKIP&amp;#39;)
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="gi">&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> export KBUILD_BUILD_HOST=archlinux
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> export KBUILD_BUILD_USER=$pkgbase
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> export KBUILD_BUILD_TIMESTAMP=&amp;#34;$(date -Ru${SOURCE_DATE_EPOCH:+d @$SOURCE_DATE_EPOCH})&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> prepare() {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="gi">+ git clone --depth=1 --branch=$_srctag &amp;#34;https://github.com/archlinux/linux&amp;#34; $_srcname
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="gi">&lt;/span> cd $_srcname
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> echo &amp;#34;Setting version...&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="gu">@@ -60,7 +60,7 @@
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="gu">&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> build() {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> cd $_srcname
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="gd">- make htmldocs all
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="gd">&lt;/span>&lt;span class="gi">+ make all
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="gi">&lt;/span> }
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> _package() {
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>That patch is then applied like this: &lt;code>patch -p0 &amp;lt; ../custom_PKGBUILD.patch&lt;/code>&lt;/p>
+&lt;p>Now the only thing left is to build and install it:&lt;/p>
+&lt;pre tabindex="0">&lt;code>makepkg -s
+sudo pacman -U linux-amdclock-*.zst
+&lt;/code>&lt;/pre>&lt;p>You can bundle all of it in a shell script to save time in further upgrades:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">&lt;span class="cp">#!/bin/bash
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cp">&lt;/span>rm -rf linux
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">asp update
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">asp &lt;span class="nb">export&lt;/span> linux
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">cp patches/* linux
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">cd&lt;/span> linux
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">mv config config.old
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># enable support for / as BTRFS filesystem&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">sed -r &lt;span class="s2">&amp;#34;s/^(|#)CONFIG_BTRFS_FS=.*/CONFIG_BTRFS_FS=y/g&amp;#34;&lt;/span> config.old &amp;gt; config
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">patch -p0 &amp;lt; ../custom_PKGBUILD.patch
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>Enriching your articles with Hugo</title><link>https://manueljimenezs.github.io/2022/04/enriching-your-articles-with-hugo/</link><pubDate>Sat, 09 Apr 2022 00:00:00 +0000</pubDate><guid>https://manueljimenezs.github.io/2022/04/enriching-your-articles-with-hugo/</guid><description>&lt;p>Hugo has some tricks to enrich the contents of the posts and is highly customizable. With some imagination, one can implement features that are in no way inferior to some popular CMS out there.&lt;/p>
 &lt;hr>
 &lt;h1>Table Of Contents&lt;/h1>
 &lt;div class="toc">
