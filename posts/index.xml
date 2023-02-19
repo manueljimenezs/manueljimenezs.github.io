@@ -1,4 +1,75 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on manueljimenezs</title><link>https://manueljimenezs.github.io/posts/</link><description>manueljimenezs (Posts)</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sun, 06 Nov 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://manueljimenezs.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Patching the kernel as a custom package in Archlinux</title><link>https://manueljimenezs.github.io/2022/11/patching-the-kernel-as-a-custom-package-in-archlinux/</link><pubDate>Sun, 06 Nov 2022 00:00:00 +0000</pubDate><guid>https://manueljimenezs.github.io/2022/11/patching-the-kernel-as-a-custom-package-in-archlinux/</guid><description>&lt;p>&lt;a href="https://manueljimenezs.github.io/2021/09/how-i-ended-up-compiling-my-own-linux-kernel/">Following the adventure of patching the linux kernel&lt;/a>, I tried to automate it a bit. Part of the process is well documented as always in the &lt;a href="https://wiki.archlinux.org/title/Kernel/Arch_Build_System">wiki&lt;/a>&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on manueljimenezs</title><link>https://manueljimenezs.github.io/posts/</link><description>manueljimenezs (Posts)</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sun, 19 Feb 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://manueljimenezs.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Scraping one of the main Spanish TV broadcasters with cookies, Python and yt-dlp</title><link>https://manueljimenezs.github.io/2023/02/scraping-one-of-the-main-spanish-tv-broadcasters-with-cookies-python-and-yt-dlp/</link><pubDate>Sun, 19 Feb 2023 00:00:00 +0000</pubDate><guid>https://manueljimenezs.github.io/2023/02/scraping-one-of-the-main-spanish-tv-broadcasters-with-cookies-python-and-yt-dlp/</guid><description>&lt;p>As a little project I wondered: Would it be possible to scrape the contents of a Spanish channel website so I could get their content offline and without any loss? That way you would be able to watch it everywhere, with no ads and no resolution limits. (This broadcaster is also known for their bad practices in ad breaks, on-screen elements and an unbrowsable website if not using adblock).&lt;/p>
+&lt;p>I was thinking about publishing the code in the first place, but I think it will be more safe and productive to write about the process of doing it so you could extend it to any websites you like:&lt;/p>
+&lt;blockquote>
+&lt;p>If you give a man a fish, you feed him for a day. If you teach a man to fish, you feed him for a lifetime.&lt;/p>
+&lt;/blockquote>
+&lt;div class="notice warning">
+&lt;span class="icon alert">
+&lt;object data="/icons/alert.svg" width="20" height="20">&lt;/object>
+&lt;/span>
+&lt;p>This is generic information, the URLs provided in this article are not real. This is only for educational purposes about working with python, requests and cookies.&lt;/p>
+&lt;/div>
+&lt;h1 id="analyzing-the-problem" >Analyzing the problem
+&lt;span>
+&lt;a href="#analyzing-the-problem">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h1>&lt;p>To be able to see any content on that channel platform, you will need to create a user account. That means, we will need to create an account to be able to make and send our requests to their internal API&lt;/p>
+&lt;p>For this I used any modern browser and I toggled the &lt;strong>Developer tools&lt;/strong> in the &lt;strong>Networking&lt;/strong> tab. That way you will be able to see the login sequence.&lt;/p>
+&lt;p>In this case, the login is a POST request to an API endpoint sending your username and password as an input. Then it generates a session token inside a cookie and allows you to interact with the internal API.&lt;/p>
+&lt;p>You could replicate that in python like this:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="n">session&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">requests&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Session&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="c1"># create a new session object to store session data for future requests&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">credentials&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="s2">&amp;#34;username:&amp;#34;&lt;/span> &lt;span class="s2">&amp;#34;myuser&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s2">&amp;#34;password:&amp;#34;&lt;/span> &lt;span class="s2">&amp;#34;mypassword&amp;#34;&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">session&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">post&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;http://api.web.com/login&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">credentials&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="notice info">
+&lt;span class="icon info">
+&lt;object data="/icons/info.svg" width="20" height="20">&lt;/object>
+&lt;/span>
+&lt;p>You can use the &lt;code>python-dotenv&lt;/code> package to store credentials inside an external file&lt;/p>
+&lt;/div>
+&lt;h1 id="choose-an-example-content" >Choose an example content
+&lt;span>
+&lt;a href="#choose-an-example-content">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h1>&lt;p>The best way to scrape something is to use actual data, but be careful: some websites have request limits and may block you with a &lt;code>HTTP 429 Too Many Requests&lt;/code> error. One way of avoiding this is dumping your jsons and content locally and scraping over that local copy.&lt;/p>
+&lt;p>After logging in, we will send a GET request with the URL of the content we want to scrape (e.g: &lt;code>http://web.com/episode/example&lt;/code>) Use a browser in developer mode first to see what you need to look for. For me, the useful data was stored inside two &lt;code>&amp;lt;script&amp;gt;&lt;/code> tags.&lt;/p>
+&lt;p>For this, you may find the &lt;code>re&lt;/code> and &lt;code>BeautifulSoup4&lt;/code> packages useful for filtering the info you need. In this case, a simple call to re was all I needed:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="n">html&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">session&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">get&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;http://web.com/episode/example&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">text&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">matches&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">re&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">findall&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;&amp;lt;script&amp;gt;(.*?)&amp;lt;/script&amp;gt;&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">html&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Inside those tags theres another url that will lead you to the specific content API endpoint, the response is a JSON where you could scrape the metadata and the streaming url&lt;/p>
+&lt;div class="notice info">
+&lt;span class="icon info">
+&lt;object data="/icons/info.svg" width="20" height="20">&lt;/object>
+&lt;/span>
+&lt;p>You can use the &lt;code>json get('')&lt;/code> functions or the &lt;code>jmespath&lt;/code> package to fetch the data you want from a json into variables&lt;/p>
+&lt;/div>
+&lt;h1 id="interfacing-your-code-with-yt-dlp" >Interfacing your code with yt-dlp
+&lt;span>
+&lt;a href="#interfacing-your-code-with-yt-dlp">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h1>&lt;p>yt-dlp is a fork of youtube-dl, a python utility to download video from lots of sources you can install it with:&lt;/p>
+&lt;pre tabindex="0">&lt;code>pip3 install yt-dlp
+&lt;/code>&lt;/pre>&lt;p>Suppose we already extracted a filename string and the m3u8 playlist with the content we want to download. We can pass them to yt-dlp like this:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="nn">yt_dlp&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># * the options we will pass to yt-dlp *&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># in this case only the outtmpl property to specify the&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># output filename we extracted in a previous request&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">ydl_opts&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span>&lt;span class="s1">&amp;#39;outtmpl&amp;#39;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">title&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="s1">&amp;#39;.mp4&amp;#39;&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">for&lt;/span> &lt;span class="n">item&lt;/span> &lt;span class="ow">in&lt;/span> &lt;span class="n">items&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="s2">&amp;#34;mpegurl&amp;#34;&lt;/span> &lt;span class="ow">in&lt;/span> &lt;span class="n">item&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">get&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;type&amp;#34;&lt;/span>&lt;span class="p">):&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">with&lt;/span> &lt;span class="n">yt_dlp&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">YoutubeDL&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">ydl_opts&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="k">as&lt;/span> &lt;span class="n">ydl&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">error_code&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">ydl&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">download&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">item&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">get&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;url&amp;#34;&lt;/span>&lt;span class="p">))&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">exit&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>That will have your file downloaded, yt-dlp will take care of downloading the separate audio and video streams and merging them into a file.&lt;/p>
+&lt;p>I hope you find this information useful and try to get your hands dirty with something that comes to your mind. Scraping can be very powerful for automation, IoT, Telegram notifications&amp;hellip;&lt;/p></description></item><item><title>Patching the kernel as a custom package in Archlinux</title><link>https://manueljimenezs.github.io/2022/11/patching-the-kernel-as-a-custom-package-in-archlinux/</link><pubDate>Sun, 06 Nov 2022 00:00:00 +0000</pubDate><guid>https://manueljimenezs.github.io/2022/11/patching-the-kernel-as-a-custom-package-in-archlinux/</guid><description>&lt;p>&lt;a href="https://manueljimenezs.github.io/2021/09/how-i-ended-up-compiling-my-own-linux-kernel/">Following the adventure of patching the linux kernel&lt;/a>, I tried to automate it a bit. Part of the process is well documented as always in the &lt;a href="https://wiki.archlinux.org/title/Kernel/Arch_Build_System">wiki&lt;/a>&lt;/p>
 &lt;p>The idea is to fetch the official Archlinux sources for the linux kernel so we can modify them and add our patches.&lt;/p>
 &lt;div class="notice info">
 &lt;span class="icon info">
