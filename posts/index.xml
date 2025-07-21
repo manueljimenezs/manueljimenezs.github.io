@@ -1,4 +1,74 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on manueljimenezs</title><link>https://manueljimenezs.github.io/posts/</link><description>manueljimenezs (Posts)</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sun, 19 Feb 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://manueljimenezs.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Scraping one of the main Spanish TV broadcasters with cookies, Python and yt-dlp</title><link>https://manueljimenezs.github.io/2023/02/scraping-one-of-the-main-spanish-tv-broadcasters-with-cookies-python-and-yt-dlp/</link><pubDate>Sun, 19 Feb 2023 00:00:00 +0000</pubDate><guid>https://manueljimenezs.github.io/2023/02/scraping-one-of-the-main-spanish-tv-broadcasters-with-cookies-python-and-yt-dlp/</guid><description>&lt;p>As a little project I wondered: Would it be possible to scrape the contents of a Spanish channel website so I could get their content offline and without any loss? That way you would be able to watch it everywhere, with no ads and no resolution limits. (This broadcaster is also known for their bad practices in ad breaks, on-screen elements and an unbrowsable website if not using adblock).&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on manueljimenezs</title><link>https://manueljimenezs.github.io/posts/</link><description>manueljimenezs (Posts)</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sun, 20 Jul 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://manueljimenezs.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Building my first Flatpak</title><link>https://manueljimenezs.github.io/2025/07/building-my-first-flatpak/</link><pubDate>Sun, 20 Jul 2025 00:00:00 +0000</pubDate><guid>https://manueljimenezs.github.io/2025/07/building-my-first-flatpak/</guid><description>&lt;p>
+&lt;figure>
+&lt;img src="https://manueljimenezs.github.io/img/2025-07-21-building-my-first-Flatpak/sdrpp_SteamDeck.jpg" alt="A SteamDeck running the SDR software SDR&amp;#43;&amp;#43; via Flatpak">
+&lt;figcaption>A SteamDeck running the SDR software SDR&amp;#43;&amp;#43; via Flatpak&lt;/figcaption>
+&lt;/figure>
+&lt;/p>
+&lt;p>First things first, I&amp;rsquo;ve had a SteamDeck for some time now. Even though you can use it for its primary purpose, playing games 😆, there&amp;rsquo;s so much you can do with it.&lt;/p>
+&lt;p>At my family&amp;rsquo;s home there is a radio antenna on the roof, that can be used with the typical ham radio handhelds and transceivers. In my case, I have it setup with a Raspberry Pi, a &lt;a href="https://swling.com/blog/2023/08/the-new-rtl-sdr-dongle-version-4/">RTL-SDR v4 dongle&lt;/a> connected to it and to the antenna. That way I can listen to HF, UHF and VHF bands from anywhere I want.&lt;/p>
+&lt;p>That concludes the server part. There are a few clients that can be used to connect to the Pi via RTL-TCP, some of them are GQRX, SDRSharp, CubicSDR, and SDR++. The former is what I have been using lately.&lt;/p>
+&lt;p>I was looking for a more portable way to access the SDR, so the SteamDeck was a perfect fit for this. There&amp;rsquo;s is only one problem, everything in SteamOS is usually installed via Flatpak because by default SteamOS sits behind an immutable file system, so having SDR++ via Flatpak would be great, but looking on the official repos there is no Flatpak package.&lt;/p>
+&lt;h1 id="the-beginning" >The beginning
+&lt;span>
+&lt;a href="#the-beginning">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h1>&lt;p>This is a short definition about what a Flatpak is&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;em>Flatpak is a technology for distributing and running sandboxed desktop applications on Linux. It allows developers to package their applications with all necessary dependencies, making it easier to distribute software across different Linux distributions.&lt;/em>&lt;/p>
+&lt;/blockquote>
+&lt;p>There are some basic things that are necessary for building a Flatpak:&lt;/p>
+&lt;ul>
+&lt;li>The YAML manifest: where modules, metadata and build steps are defined&lt;/li>
+&lt;li>The icon and desktop file&lt;/li>
+&lt;/ul>
+&lt;p>This is an example of the manifest file:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">id&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">org.sdrpp.App&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">runtime&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">org.kde.Platform&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">runtime-version&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s1">&amp;#39;5.15-23.08&amp;#39;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">sdk&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">org.kde.Sdk&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">command&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">sdrpp&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">finish-args&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- --&lt;span class="l">share=network&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- --&lt;span class="l">socket=pulseaudio&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- --&lt;span class="l">filesystem=home&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- --&lt;span class="l">device=usb&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- --&lt;span class="l">socket=x11&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- --&lt;span class="l">device=dri&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">modules&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">rtl-sdr&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">buildsystem&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">cmake&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">config-opts&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- -&lt;span class="l">DINSTALL_UDEV_RULES=OFF&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- -&lt;span class="l">DDETACH_KERNEL_DRIVER=ON&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">sources&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">type&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">git&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">url&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">https://github.com/rtlsdrblog/rtl-sdr-blog.git&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">branch&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">v1.3.6&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nn">...&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>The &lt;strong>runtime&lt;/strong> defines a set of libraries where the program is going to run on. In this case, SDR++ is a QT app so the KDE Runtime would guarantee the least hassle to make this run.&lt;/p>
+&lt;p>Each &lt;strong>module&lt;/strong> defines a dependency, needed to build the software from source, you can also set where does it fetch the sources from with the &lt;code>sources:&lt;/code> tag, doesn&amp;rsquo;t matter if sources are local or not. After reading the SDR++ repo for quite a while i managed to gather all the module dependencies and their options. I only built this with the RTL-SDR driver and &amp;lsquo;didnt bother with compatibility for other drivers as that would have made the build process even more complex.&lt;/p>
+&lt;p>In &lt;strong>finish-args&lt;/strong> you define the permissions the final app will need.&lt;/p>
+&lt;h1 id="handicaps" >Handicaps
+&lt;span>
+&lt;a href="#handicaps">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h1>&lt;p>I had a few problems trying to run the app due to an error linking &lt;strong>stdc++fs&lt;/strong> whilte trying to build the source. After battling a little bit with ChatGPT it led me to the right path: modify the upstream code so it doesn&amp;rsquo;t try to link &lt;code>stdc++fs&lt;/code>. &lt;em>(modern GCC versions (≥9) integrate std::filesystem directly into libstdc++, so explicitly linking -lstdc++fs results in an error because it doesn&amp;rsquo;t exist!)&lt;/em>&lt;/p>
+&lt;h1 id="trial-and-error" >Trial and error
+&lt;span>
+&lt;a href="#trial-and-error">
+&lt;svg viewBox="0 0 28 23" height="100%" width="19" xmlns="http://www.w3.org/2000/svg">&lt;path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>&lt;/svg>
+&lt;/a>
+&lt;/span>
+&lt;/h1>&lt;p>I was building and trying to run the app with these commands:&lt;/p>
+&lt;pre tabindex="0">&lt;code>flatpak-builder --force-clean build-dir org.sdrpp.App.yaml --install build-dir --user
+flatpak run org.sdrpp.App.yaml
+&lt;/code>&lt;/pre>&lt;p>You can also open a shell inside the Flatpak environment like this for debugging:&lt;/p>
+&lt;pre tabindex="0">&lt;code>flatpak run --command=sh --devel org.sdrpp.App
+&lt;/code>&lt;/pre>&lt;p>Now that was running it is time to add the icons and the .desktop file shortcut to make it pretty. You can check the repo &lt;a href="https://github.com/manueljimenezs/sdrpp-flatpak">here&lt;/a>&lt;/p></description></item><item><title>Scraping one of the main Spanish TV broadcasters with cookies, Python and yt-dlp</title><link>https://manueljimenezs.github.io/2023/02/scraping-one-of-the-main-spanish-tv-broadcasters-with-cookies-python-and-yt-dlp/</link><pubDate>Sun, 19 Feb 2023 00:00:00 +0000</pubDate><guid>https://manueljimenezs.github.io/2023/02/scraping-one-of-the-main-spanish-tv-broadcasters-with-cookies-python-and-yt-dlp/</guid><description>&lt;p>As a little project I wondered: Would it be possible to scrape the contents of a Spanish channel website so I could get their content offline and without any loss? That way you would be able to watch it everywhere, with no ads and no resolution limits. (This broadcaster is also known for their bad practices in ad breaks, on-screen elements and an unbrowsable website if not using adblock).&lt;/p>
 &lt;p>I was thinking about publishing the code in the first place, but I think it will be more safe and productive to write about the process of doing it so you could extend it to any websites you like:&lt;/p>
 &lt;blockquote>
 &lt;p>If you give a man a fish, you feed him for a day. If you teach a man to fish, you feed him for a lifetime.&lt;/p>
